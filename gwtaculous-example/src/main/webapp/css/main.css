@@ -1,0 +1,86 @@
+﻿
+body,html 	{height: 100%}
+body 		{background-image: url('../images/common/background/simple_night_sky.png'); display: table; width: 100%}
+a			{text-decoration: none; color: inherit;}
+
+/* cursors */
+.cursorPointer {cursor: pointer;}
+
+#mainViewPanelWrapper {
+	display: table-cell; vertical-align: middle;
+}
+
+#mainNavigationPanel {	
+	width: 600px;
+	height: 600px;
+	margin: 0 auto;
+	position: relative;
+	background-image: url('../images/nebula/nebula_X.png');
+}
+
+#mainNavigationPanel .mainNavigationSelector_1 {
+	width: 160px; height: 160px;
+	position: absolute; top: 20px; left: 20px;
+}
+#mainNavigationPanel .mainNavigationSelector_2 {
+	width: 160px; height: 160px;
+	position: absolute; top: 20px; left: 225px
+}
+#mainNavigationPanel .mainNavigationSelector_3 {
+	width: 160px; height: 160px;
+	position: absolute; top: 20px; left: 430px;
+}
+#mainNavigationPanel .mainNavigationSelector_4 {
+	width: 160px; height: 160px;
+	position: absolute; top: 225px; left: 20px;
+}
+#mainNavigationPanel .mainNavigationSelector_5 {
+	width: 160px; height: 160px;
+	position: absolute; top: 225px; left: 225px;
+}
+#mainNavigationPanel .mainNavigationSelector_6 {
+	width: 160px; height: 160px;
+	position: absolute; top: 225px; left: 430px;
+}
+#mainNavigationPanel .mainNavigationSelector_7 {
+	width: 160px; height: 160px;
+	position: absolute; top: 430px; left: 20px;
+}
+#mainNavigationPanel .mainNavigationSelector_8 {
+	width: 160px; height: 160px;
+	position: absolute; top: 430px; left: 225px;
+}
+#mainNavigationPanel .mainNavigationSelector_9 {
+	width: 160px; height: 160px;
+	position: absolute; top: 430px; left: 430px;
+}
+
+div.selector {
+	border: 1px solid #909090;
+	overflow: hidden;
+}
+
+div.selector div {
+	position: absolute; top: 10px; left: 10px;
+	font-family: Verdana;
+	font-size: 26px;
+	color: white;
+	cursor: pointer;
+}
+
+div.selector img {
+	position: absolute;
+}
+
+div.beforeAnimation {
+	border: 1px solid #909090;
+	background-color: #000000;
+}
+div.afterAnimation {
+	border: 1px solid #900000 !important;
+	background-color: #300000 !important;
+	width: 100px !important;
+	height: 50px !important;
+}
+
+

@@ -1,0 +1,216 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pl.touk.gwtaculous</groupId>
+	<artifactId>gwtaculous-example</artifactId>
+	<packaging>war</packaging>
+	<name>Example of GWTaculous library usage</name>
+	<version>0.1.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>pl.touk.gwtaculous</groupId>
+		<artifactId>gwtaculous</artifactId>
+		<version>0.1.1-SNAPSHOT</version>
+	</parent>
+	
+	<properties>
+		<gwt.version>2.0.1</gwt.version>
+        <gwt.maven.plugin.version>1.2</gwt.maven.plugin.version>
+        <gwt.class.name>pl.touk.gwtaculous.demo.EffectsDemo</gwt.class.name>
+	</properties>
+	
+	<build>
+		<finalName>gwtaculous-example</finalName>
+        <plugins>
+			<plugin>
+				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+			</plugin>
+			
+		</plugins>
+	
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/java</directory>
+				<targetPath>../gwt-src</targetPath>
+			</resource>
+	        <resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	
+	<profiles>
+		<profile>
+            <id>build</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>GWTCompilation</name>
+                </property>
+            </activation>
+            <build>
+				<plugins>
+		            <plugin>
+		                <groupId>org.codehaus.mojo</groupId>
+		                <artifactId>gwt-maven-plugin</artifactId>
+		                <version>${gwt.maven.plugin.version}</version>
+		                <configuration>
+		                	<sourceDirectory>${project.build.directory}/gwt-src</sourceDirectory>
+		                    <className>${gwt.class.name}</className>
+		                    <outputDirectory> ${project.build.directory}/${project.build.finalName}</outputDirectory>
+		                    <style>PRETTY</style>
+		                    <source>5</source>
+		
+		                    <jvmOptions>-Xss16096k -Djava.awt.headless=true</jvmOptions>
+		                    <fork>true</fork>
+		                    <xmx>1024m</xmx>
+		                    <xms>64m</xms>
+		                </configuration>
+					
+		                <executions>
+		                    <execution>
+		                        <phase>compile</phase>
+		                        <goals>
+		                            <goal>compile</goal>
+		                        </goals>
+		                    </execution>
+		                </executions>
+		                <dependencies>
+		                </dependencies>
+		            </plugin>
+		
+		            <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-war-plugin</artifactId>
+		                <configuration>
+		                    <archiveClasses>false</archiveClasses>
+		                    <webXml>
+		                        ${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+		                    <warSourceDirectory>
+		                        ${basedir}/src/main/webapp</warSourceDirectory>
+		                    <webResources>
+		                        <resource>
+		                            <directory>
+		                                ${project.build.directory}/${project.build.finalName}/${gwt.class.name}
+									</directory>
+		                        </resource>
+		                    </webResources>
+		                </configuration>
+		            </plugin>					
+		        </plugins>
+				
+    		</build>
+        </profile>
+		
+		<profile>
+			<id>devel</id>
+			<activation>
+				<property>
+					<name>devel</name>
+				</property>
+			</activation>
+			<build>			
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>1.0.2-touk</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>read-project-properties</goal>
+								</goals>
+								<configuration>
+									<files>
+										<file>gwt.properties</file>
+									</files>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					
+					<plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.0.2-touk</version>
+                        <executions>
+                            <execution>
+                            	<phase>compile</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>${java.executable}</executable>
+                            <arguments>
+                                <argument>-Xmx1024m</argument>
+                                <argument>-Xms128m</argument>
+                                <argument>-XX:PermSize=64m</argument>
+								<argument>-XX:MaxPermSize=256m</argument>
+								<argument>-Xdebug</argument>
+                                <argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8002</argument>
+                                <argument>-classpath</argument>
+                                <classpath>
+                                    <path>${gwt.home.dir}</path>
+                                    <path>${gwt.dev.jar}</path>
+                                    <path>${project.basedir}/src/main/java</path>
+                                    <path>${project.build.directory}/gwt-src</path>
+                                </classpath>
+                                <argument>com.google.gwt.dev.DevMode</argument>
+                                <argument>-noserver</argument>
+                                <argument>-gen</argument>
+                                <argument>${project.build.directory}/review</argument>
+                                <argument>-startupUrl</argument>
+                                <argument>${app.url}</argument>
+                                <argument>-war</argument>
+                                <argument>${project.build.directory}/${project.build.finalName}</argument>
+                                <argument>-extra</argument>
+                                <argument>${project.build.directory}/extra</argument>
+                                <argument>${gwt.class.name}</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+					
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+			
+	<dependencies>
+		<dependency>
+			<groupId>pl.touk.gwtaculous</groupId>
+			<artifactId>gwtaculous-lib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+	</dependencies>
+	
+</project>

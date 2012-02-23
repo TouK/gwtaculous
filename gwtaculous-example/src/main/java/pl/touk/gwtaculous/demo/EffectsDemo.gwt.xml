@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
+    "http://google-web-toolkit.googlecode.com/svn/tags/2.0.4/distro-source/core/src/gwt-module.dtd">
+	
+<module>
+
+    <inherits name="pl.touk.Gwtaculous"/>
+    <inherits name="com.google.gwt.user.User"/>
+	
+    <entry-point class="pl.touk.gwtaculous.demo.EntryPoint"/>
+    <extend-property name="locale" values="pl"/>
+
+</module>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN"
+    "http://google-web-toolkit.googlecode.com/svn/tags/2.0.4/distro-source/core/src/gwt-module.dtd">
+	
+<module>
+	<!-- automaticly adds dependant java scripts to host page -->
+	<script src="js/prototype.js" />
+	<script src="js/scriptaculous.js" />
+	<script src="js/effects.js"  />
+
+	<source path="gwtaculous" />
+</module>        
