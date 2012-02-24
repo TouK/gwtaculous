@@ -7,7 +7,6 @@ import pl.touk.gwtaculous.dnd.event.DropInHandler;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
