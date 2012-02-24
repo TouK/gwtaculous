@@ -1,4 +1,4 @@
-java.executable=/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java
-gwt.home.dir=/Applications/_Programowanie/gwt-mac/
-gwt.dev.jar=${gwt.home.dir}/gwt-dev-mac.jar
-app.url=http://localhost:8080/project-ark
+java.executable=C:/java/jdk/bin/java
+gwt.home.dir=C:/_Programming/gwt-2.3.0
+gwt.dev.jar=${gwt.home.dir}/gwt-dev.jar
+app.url=http://localhost:8080/gwtaculous-example/
