@@ -19,9 +19,9 @@
     </modules>
 	
 	<scm>
-        <connection>scm:svn:https//top.touk.pl/svn/gwtaculous/trunk</connection>
-        <developerConnection>scm:svn:http://top.touk.pl/svn/gwtaculous/trunk</developerConnection>
-        <url>http://top.touk.pl/svn/gwtaculous/trunk</url>
+        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</connection>
+        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</developerConnection>
+        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</url>
     </scm>
 	
 	<build>
