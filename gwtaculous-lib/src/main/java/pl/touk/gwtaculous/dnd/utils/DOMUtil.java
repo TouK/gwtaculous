@@ -24,17 +24,6 @@ public class DOMUtil {
 	  		elem.getStyle().setPropertyPx("top", top);
 	  	}
 	  	
-	  	public static void forceElementPosition(Element elem, int left, int top) {
-	  		String position = elem.getStyle().getPosition();
-	  		
-	  		if (position.indexOf("absolute") < 0 && position.indexOf("fixed") < 0) {
-	  			elem.getStyle().setProperty("position", "absolute");
-	  		}
-	  		
-	  		elem.getStyle().setPropertyPx("left", left);
-	  		elem.getStyle().setPropertyPx("top", top);
-	  	}
-	  	
 		public static boolean isMouseCursorWithinElement(Element element, int mousePosX, int mousePosY){
 			
 			int elementTop = element.getAbsoluteTop();

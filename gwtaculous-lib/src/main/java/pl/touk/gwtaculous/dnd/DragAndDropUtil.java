@@ -51,36 +51,40 @@ public class DragAndDropUtil {
 		return false;
 	}
 	
-	public static Element initPosition (Element element, int posX, int posY){
+	public static Element adaptAndPosition (Element element, int posX, int posY, Position position){
+		element.getStyle().setPosition(position);
 		element.getStyle().setMargin(0, Unit.PX);
-		DOMUtil.forceElementPosition(element, posX, posY);
+		element.getStyle().setZIndex(10000);
+		DOMUtil.setElementPosition(element, posX, posY);
 		return element;
 	}
 	
-	public static Element initCloneAndPosition (Element element, int posX, int posY) {
+	public static Element cloneAndPosition (Element element, int posX, int posY, Position position) {
 		//TODO set size of dragElement to size of element to be cloned
 		Element dragElement = Document.get().createDivElement();
 		dragElement.getStyle().setZIndex(10000);
+		dragElement.getStyle().setPosition(position);
 		dragElement.getStyle().setOpacity(0.75);
 		dragElement.appendChild(element.cloneNode(true));
 		dragElement.getFirstChildElement().getStyle().setMargin(0, Unit.PX);
 		dragElement.getFirstChildElement().getStyle().setPosition(Position.STATIC);
-		DOMUtil.forceElementPosition(dragElement, posX, posY);
+		DOMUtil.setElementPosition(dragElement, posX, posY);
 		RootPanel.get().getElement().appendChild(dragElement);
 		return dragElement;
 	}
 	
-	public static void moveElementToElement(Element elementMoved, Element elementTarget){
+	public static void moveElementToElement(Element elementMoved, Element elementTarget, Position position){
 		int posX = elementTarget.getAbsoluteLeft();
 		int posY = elementTarget.getAbsoluteTop();
-		elementMoved.getStyle().setPosition(Position.ABSOLUTE);
+		elementMoved.getStyle().setPosition(position);
 		elementMoved.getStyle().setMargin(0, Unit.PX);
+		elementMoved.getStyle().setZIndex(10000);
 		DOMUtil.setElementPosition(elementMoved, posX, posY);
 	}
 	
 	public static void terminateClone(DragObject dragElement){
 		if (dragElement.getDragOptions().contains(DragOption.MOVE_TO_CLONE)) {
-			moveElementToElement(dragElement.getSourceElement(), dragElement.getDragElement());
+			moveElementToElement(dragElement.getSourceElement(), dragElement.getDragElement(), Position.FIXED);
 		}
 		dragElement.getDragElement().removeFromParent();
 	}

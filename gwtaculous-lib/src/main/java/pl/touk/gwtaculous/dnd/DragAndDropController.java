@@ -6,7 +6,9 @@ import pl.touk.gwtaculous.dnd.event.DragInitEvent;
 import pl.touk.gwtaculous.dnd.event.DragMoveEvent;
 import pl.touk.gwtaculous.dnd.event.DragMoveHandler;
 import pl.touk.gwtaculous.dnd.event.DragOutEvent;
+import pl.touk.gwtaculous.dnd.event.DragOutHandler;
 import pl.touk.gwtaculous.dnd.event.DragOverEvent;
+import pl.touk.gwtaculous.dnd.event.DragOverHandler;
 import pl.touk.gwtaculous.dnd.event.DragStartEvent;
 import pl.touk.gwtaculous.dnd.event.DragStopEvent;
 import pl.touk.gwtaculous.dnd.event.DragStopHandler;
@@ -30,6 +32,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Main drag & drop controller. This class is singleton and can be initialized only once. 
@@ -114,19 +117,28 @@ public class DragAndDropController {
 	
 	public HandlerRegistration makeMeDroppable(final DropObject dropObject) {
 		
-		HandlerRegistration dragStopHR = addDragStopHandlerToDroppable(dropObject);
-		HandlerRegistration dragMoveHR = addDragMoveHandlerToDroppable(dropObject);
-		
-		return new MultiHandlerRegistration(dragStopHR, dragMoveHR);
-	}
-	
-	public HandlerRegistration makeMeDroppable(final DropObject dropObject, DropInHandler handler) {
+		Widget sourceWidget =  dropObject.getSourceWidget();
 		
 		HandlerRegistration dragStopHR = addDragStopHandlerToDroppable(dropObject);
 		HandlerRegistration dragMoveHR = addDragMoveHandlerToDroppable(dropObject);
-		HandlerRegistration dropInHR = DropInEvent.register(eventBus, handler, dropObject.getSourceWidget());
+		HandlerRegistration dropInHR = null;
+		HandlerRegistration dragOverHR = null;
+		HandlerRegistration dragOutHR = null;
 		
-		return new MultiHandlerRegistration(dragStopHR, dragMoveHR, dropInHR);
+		if (sourceWidget instanceof DropInHandler) {
+			dropInHR = DropInEvent.register(eventBus, (DropInHandler) sourceWidget, sourceWidget);
+		}
+		
+		if (sourceWidget instanceof DragOverHandler) {
+			dragOverHR = DragOverEvent.register(eventBus, (DragOverHandler) sourceWidget, sourceWidget);
+		}
+		
+		if (sourceWidget instanceof DragOutHandler) {
+			dragOutHR = DragOutEvent.register(eventBus, (DragOutHandler) sourceWidget, sourceWidget);
+		}
+		
+
+		return new MultiHandlerRegistration(dragStopHR, dragMoveHR, dropInHR, dragOverHR, dragOutHR);
 	}
 	
 	private HandlerRegistration addMouseDownHandlerToDraggable(final DragObject dragObject){
@@ -168,17 +180,23 @@ public class DragAndDropController {
 	}
 	
 	private HandlerRegistration addDragStopHandlerToDroppable(final DropObject dropObject){
+		
+		final ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
+		final boolean dropInEnabled = dropOptions.contains(DropOption.FIRE_DROP_IN_EVENT) || ! dropOptions.contains(DropOption.SILENT);
+		
 		return DragStopEvent.register(eventBus, new DragStopHandler() {
 			public void onDragStop(DragStopEvent event) {
 				DragObject dragObject = event.getDragObject();
 				if (DragAndDropUtil.isDropSuccessful(dragObject, dropObject)) {
 					isDropIn = true;
-					if ((dropObject.getContainerWidget() instanceof Panel) && (dropObject.getDropOptions().contains(DropOption.ADOPT_WIDGET))){
+					if ((dropObject.getContainerWidget() instanceof Panel) && (dropOptions.contains(DropOption.ADOPT_WIDGET))){
 						dragObject.getSourceWidget().removeFromParent();
 						((Panel)dropObject.getContainerWidget()).add(dragObject.getSourceWidget());
 					}
-					GWT.log("DropInEvent");
-					eventBus.fireEventFromSource(new DropInEvent(dragObject, dropObject), dropObject.getSourceWidget());
+					if (dropInEnabled) {
+						GWT.log("DropInEvent");
+						eventBus.fireEventFromSource(new DropInEvent(dragObject, dropObject), dropObject.getSourceWidget());
+					}
 				}
 			}
 		});
@@ -187,13 +205,14 @@ public class DragAndDropController {
 	private HandlerRegistration addDragMoveHandlerToDroppable(final DropObject dropObject){
 		
 		final ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
-		final boolean dragOverAndOutEventsDisabled = dropOptions.contains(DropOption.FIRE_DRAG_OVER_OUT_EVENT) || ! dropOptions.contains(DropOption.SILENT);
+		final boolean dragOverAndOutEventsEnabled = dropOptions.contains(DropOption.FIRE_DRAG_OVER_OUT_EVENT) || ! dropOptions.contains(DropOption.SILENT);
 		
 		return DragMoveEvent.register(eventBus, new DragMoveHandler() {
 			
 			public void onDragMove(DragMoveEvent event) {
-				
-				if (!dragOverAndOutEventsDisabled) {
+
+				if (dragOverAndOutEventsEnabled) {
+					
 					DragObject dragObject = event.getDragObject();
 					int mouseClientPositionX = dragObject.getMouseClientPositionX();
 					int mouseClientPositionY = dragObject.getMouseClientPositionY();

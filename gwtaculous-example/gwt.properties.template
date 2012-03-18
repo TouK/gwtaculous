@@ -1,4 +1,4 @@
-java.executable=C:/java/jdk/bin/java
-gwt.home.dir=C:/_Programming/gwt-2.3.0
+java.executable=C:/Java/jdk1.7.0_03/bin/java
+gwt.home.dir=D:/Tools/Programowanie/Gwt/gwt-2.4.0
 gwt.dev.jar=${gwt.home.dir}/gwt-dev.jar
 app.url=http://localhost:8080/gwtaculous-example/

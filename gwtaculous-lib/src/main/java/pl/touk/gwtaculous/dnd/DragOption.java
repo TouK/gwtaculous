@@ -5,10 +5,16 @@ public enum DragOption {
 	/** Clones source element and perform actual drag on a copy, clone is automatically terminated when drag stops */
 	CLONE_WIDGET, 
 	
-	/** After successful drag tries to change position of source element to last known position of its dragged clone */
+	/** After successful drag fix position of source element to last known position of its dragged clone */
 	MOVE_TO_CLONE, 
 	
-	/**Drag movement is restricted only to X axis, this option is mutually exclusive with MOVE_AXIS_Y */
+	/** 
+	 * Experimental: After unsuccessful drag position and styles of source element are restored to state before drag
+	 * This is default when CLONE_WIDGET is selected
+	 */
+	RESTORE_IF_REJECTED, 	
+	
+	/** Drag movement is restricted only to X axis, this option is mutually exclusive with MOVE_AXIS_Y */
 	MOVE_AXIS_X, 
 	
 	/** Drag movement is restricted only to Y axis, this option is mutually exclusive with MOVE_AXIS_X */
@@ -37,5 +43,15 @@ public enum DragOption {
 	FIRE_DROP_OUT_EVENT, 
 	
 	/** Mouse cursor over dragged element is set to css "move" value during drag process */
-	AUTO_MOVE_CURSOR
+	AUTO_MOVE_CURSOR,
+	
+	/** Experimental: Positioning is accomplished by changing "absolute" position of element rather then changing "fixed" position 
+	 * 	This option is mutually exclusive with POSITION_RELATIVE
+	 */
+	POSITION_ABSOLUTE,
+	
+	/** Experimental: Positioning is accomplished by changing "relative" position of element rather then changing "fixed" position 
+	 *	This option is mutually exclusive with POSITION_ABSOLUTE 
+	 */
+	POSITION_RELATIVE
 }

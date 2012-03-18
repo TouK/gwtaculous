@@ -3,6 +3,7 @@ package pl.touk.gwtaculous.dnd;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import pl.touk.gwtaculous.dnd.event.DragStopEvent;
 import pl.touk.gwtaculous.dnd.event.DropInHandler;
 
 import com.google.gwt.event.shared.EventBus;
@@ -30,7 +31,7 @@ public class DragAndDrop {
 	 * 
 	 * @param Widget to get drag capabilities
 	 * @param List of {@link DragOption} used to parameterize drag capabilities
-	 * @return HandlerRegistration used to remove drag capabilities (with all necessary mouse handlers)
+	 * @return HandlerRegistration used to remove drag capabilities (with all mouse handlers)
 	 */
 	public static HandlerRegistration makeMeDraggable(Widget draggable, DragOption...options) {
 		
@@ -47,7 +48,7 @@ public class DragAndDrop {
 	 * @param Widget to get drag capabilities
 	 * @param Container Widget that will limit drag area
 	 * @param List of {@link DragOption} used to parameterize drag capabilities
-	 * @return HandlerRegistration used to remove drag capabilities (with all necessary mouse handlers)
+	 * @return HandlerRegistration used to remove drag capabilities (with all mouse handlers)
 	 */
 	public static HandlerRegistration makeMeDraggable(Widget draggable, Widget containerWidget, DragOption...options) {
 	
@@ -59,6 +60,15 @@ public class DragAndDrop {
 		return DragAndDropController.getInstance().makeMeDraggable(d);
 	}
 	
+	/**
+	 * Makes Widget a drag lever. Pulling lever drags another widget (drag proxy). 
+	 * This function adds to Widget all necessary mouse handlers to determine that drag process started. 
+	 * 
+	 * @param Lever widget to be pulled by mouse action
+	 * @param Widget to be moved if lever widget is pulled
+	 * @param List of {@link DragOption} used to parameterize drag capabilities
+	 * @return HandlerRegistration used to remove drag capabilities (with all mouse handlers)
+	 */
 	public static HandlerRegistration makeMeDraggableLever(Widget leverWidget, Widget draggWidget, DragOption...options) {
 		
 		ArrayList<DragOption> dragOptions = new ArrayList<DragOption>(Arrays.asList(options));
@@ -67,6 +77,17 @@ public class DragAndDrop {
 		return DragAndDropController.getInstance().makeMeDraggable(d);
 	}
 	
+	/**
+	 * Makes Widget a drag lever. Pulling lever drags another widget (drag proxy). Drag is restricted to container Widget size and position.
+	 * This function adds to Widget all necessary mouse handlers to determine that drag process started. 
+	 * 
+	 * 
+	 * @param Lever widget to be pulled by mouse action
+	 * @param Widget to be moved if lever widget is pulled
+	 * @param Container Widget that will limit drag area
+	 * @param List of {@link DragOption} used to parameterize drag capabilities
+	 * @return HandlerRegistration used to remove drag capabilities (with all mouse handlers)
+	 */
 	public static HandlerRegistration makeMeDraggableLever(Widget leverWidget, Widget draggWidget, Widget containerWidget, DragOption...options) {
 		
 		ArrayList<DragOption> dragOptions = new ArrayList<DragOption>(Arrays.asList(options));
@@ -77,21 +98,22 @@ public class DragAndDrop {
 		return DragAndDropController.getInstance().makeMeDraggable(d);
 	}
 	
+	/**
+	 * Makes Widget a drop box. Drop boxes (droppables) are responsible for launching drop related events.
+	 * If Widget implements any drop handlers: {@link DropInHandler}, {@link DragOverHandler}, {@link DragOutHandler}
+	 * it will also automatically hear on EventBus for corresponding events. Some drop events depends on drag events
+	 * (for example {@link DropInEvent} and {@link DragStopEvent})
+	 * 
+	 * @param Widget to get drop capabilities
+	 * @param List of {@link DropOption} used to parameterize drop capabilities
+	 * @return HandlerRegistration used to remove drop capabilities
+	 */
 	public static HandlerRegistration makeMeDroppable(Widget droppable, DropOption...options) {
 		
 		ArrayList<DropOption> dropOptions = new ArrayList<DropOption>(Arrays.asList(options));
 		DropObject d = new DropObject(droppable, droppable, dropOptions);
 		
 		return DragAndDropController.getInstance().makeMeDroppable(d);
-	}
-	
-	public static HandlerRegistration makeMeDroppable(Widget droppable, DropInHandler handler, DropOption...options) {
-		
-		ArrayList<DropOption> dropOptions = new ArrayList<DropOption>(Arrays.asList(options));
-		DropObject d = new DropObject(droppable, droppable, dropOptions);
-		
-		return DragAndDropController.getInstance().makeMeDroppable(d, handler);
-	}
-		
+	}		
 	
 }

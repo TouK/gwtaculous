@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import pl.touk.gwtaculous.dnd.utils.DOMUtil;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -50,16 +51,18 @@ public class DragObject {
 		this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
 		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
 		
+		//TODO implement DragOption.POSITION_ABSOLUTE and DragOption.POSITION_RELATIVE options
 		if (dragOptions.contains(DragOption.CLONE_WIDGET)) {
-			draggedElement = DragAndDropUtil.initCloneAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY);
+			draggedElement = DragAndDropUtil.cloneAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY, Position.ABSOLUTE);
 		} else {
-			draggedElement = DragAndDropUtil.initPosition(sourceElement, widgetStartPositionX, widgetStartPositionY);
+			draggedElement = DragAndDropUtil.adaptAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY, Position.FIXED);
 		}
 	}
 	
 	public ArrayList<DragOption> getDragOptions() {
 		return dragOptions;
 	}
+	
 	public void setDragOptions(ArrayList<DragOption> dragOptions) {
 		
 		if (dragOptions.contains(DragOption.SILENT)){

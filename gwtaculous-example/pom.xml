@@ -13,8 +13,8 @@
 	</parent>
 	
 	<properties>
-		<gwt.version>2.3.0</gwt.version>
-        <gwt.maven.plugin.version>2.3.0-1</gwt.maven.plugin.version>
+		<gwt.version>2.4.0</gwt.version>
+        <gwt.maven.plugin.version>2.4.0</gwt.maven.plugin.version>
         <gwt.class.name>pl.touk.gwtaculous.demo.EffectsDemo</gwt.class.name>
 	</properties>
 	
@@ -43,10 +43,6 @@
 		</plugins>
 	
 		<resources>
-			<resource>
-				<directory>${basedir}/src/main/java</directory>
-				<targetPath>../gwt-src</targetPath>
-			</resource>
 	        <resource>
 				<directory>${basedir}/src/main/resources</directory>
 				<includes>
@@ -72,7 +68,7 @@
 		                <artifactId>gwt-maven-plugin</artifactId>
 		                <version>${gwt.maven.plugin.version}</version>
 		                <configuration>
-		                	<sourceDirectory>${project.build.directory}/gwt-src</sourceDirectory>
+		                	<sourceDirectory>${project.build.directory}/src/main/java</sourceDirectory>
 		                    <className>${gwt.class.name}</className>
 		                    <outputDirectory> ${project.build.directory}/${project.build.finalName}</outputDirectory>
 		                    <style>PRETTY</style>
@@ -173,7 +169,6 @@
                                     <path>${gwt.home.dir}</path>
                                     <path>${gwt.dev.jar}</path>
                                     <path>${project.basedir}/src/main/java</path>
-                                    <path>${project.build.directory}/gwt-src</path>
                                 </classpath>
                                 <argument>com.google.gwt.dev.DevMode</argument>
                                 <argument>-noserver</argument>

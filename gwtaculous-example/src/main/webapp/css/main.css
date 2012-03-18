@@ -1,56 +1,70 @@
 ﻿
 body,html 	{height: 100%}
-body 		{background-image: url('../images/common/background/simple_night_sky.png'); display: table; width: 100%}
-a			{text-decoration: none; color: inherit;}
+body 		{background-image: url('../images/simple_night_sky.png'); width: 100%; height: 100%;}
 
-/* cursors */
 .cursorPointer {cursor: pointer;}
 
-#mainViewPanelWrapper {
-	display: table-cell; vertical-align: middle;
+#chooseDemoPanel {
+	position: absolute; top: 0; left: 0;
+}
+#chooseDemoPanel div {
+    background-color: black;
+    border: 2px solid #221111;
+    border-radius: 10px 10px 10px 10px;
+    color: #990000;
+    cursor: pointer;
+    font-family: Verdana;
+    font-size: 16px;
+    margin: 10px 0 0 10px;
+    padding: 4px;
+}
+#chooseDemoPanel div:hover {
+	color: red;
+	border-color: #441111;
 }
 
-#mainNavigationPanel {	
+#mainPanel {	
 	width: 600px;
 	height: 600px;
-	margin: 0 auto;
-	position: relative;
-	background-image: url('../images/nebula/nebula_X.png');
+	position: absolute; top:50%; left: 50%;
+	margin-top: -300px;
+	margin-left: -300px;
+	background-image: url('../images/nebula_X.png');
 }
 
-#mainNavigationPanel .mainNavigationSelector_1 {
+#mainPanel .selector_1 {
 	width: 160px; height: 160px;
 	position: absolute; top: 20px; left: 20px;
 }
-#mainNavigationPanel .mainNavigationSelector_2 {
+#mainPanel .selector_2 {
 	width: 160px; height: 160px;
 	position: absolute; top: 20px; left: 225px
 }
-#mainNavigationPanel .mainNavigationSelector_3 {
+#mainPanel .selector_3 {
 	width: 160px; height: 160px;
 	position: absolute; top: 20px; left: 430px;
 }
-#mainNavigationPanel .mainNavigationSelector_4 {
+#mainPanel .selector_4 {
 	width: 160px; height: 160px;
 	position: absolute; top: 225px; left: 20px;
 }
-#mainNavigationPanel .mainNavigationSelector_5 {
+#mainPanel .selector_5 {
 	width: 160px; height: 160px;
 	position: absolute; top: 225px; left: 225px;
 }
-#mainNavigationPanel .mainNavigationSelector_6 {
+#mainPanel .selector_6 {
 	width: 160px; height: 160px;
 	position: absolute; top: 225px; left: 430px;
 }
-#mainNavigationPanel .mainNavigationSelector_7 {
+#mainPanel .selector_7 {
 	width: 160px; height: 160px;
 	position: absolute; top: 430px; left: 20px;
 }
-#mainNavigationPanel .mainNavigationSelector_8 {
+#mainPanel .selector_8 {
 	width: 160px; height: 160px;
 	position: absolute; top: 430px; left: 225px;
 }
-#mainNavigationPanel .mainNavigationSelector_9 {
+#mainPanel .selector_9 {
 	width: 160px; height: 160px;
 	position: absolute; top: 430px; left: 430px;
 }
@@ -59,17 +73,35 @@ div.selector {
 	border: 1px solid #909090;
 	overflow: hidden;
 }
+div.highlighted {
+	border: 1px solid #0000f0;
+}
 
 div.selector div {
 	position: absolute; top: 10px; left: 10px;
 	font-family: Verdana;
 	font-size: 26px;
 	color: white;
-	cursor: pointer;
 }
 
 div.selector img {
 	position: absolute;
+}
+
+img.small {
+	width: 64px; height: 64px;
+}
+img.rounded {
+	border: 1px solid #000090;
+	border-radius: 20px;
+}
+img.square {
+	border: 1px solid #009000;
+}
+img.rotated {
+	border: 1px solid #909000;
+	transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
 }
 
 div.beforeAnimation {
