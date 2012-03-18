@@ -100,7 +100,7 @@ public class DragAndDropDemo extends Composite {
 		
 		DragAndDrop.makeMeDroppable(flowPanel_3);
 		
-		DragAndDrop.makeMeDroppable(flowPanel_6);
+		DragAndDrop.makeMeDroppable(flowPanel_6, DropOption.ADOPT_WIDGET);
 		
 		DragAndDrop.makeMeDroppable(flowPanel_9, DropOption.SILENT, DropOption.FIRE_DRAG_OVER_OUT_EVENT);
 	}
