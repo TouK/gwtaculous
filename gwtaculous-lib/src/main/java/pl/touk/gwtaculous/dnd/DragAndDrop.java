@@ -27,7 +27,7 @@ public class DragAndDrop {
 	
 	
 	/**
-	 * Makes Widget capable of dragging. This function adds to Widget all necessary mouse handlers to determine that drag process started. 
+	 * Makes Widget drag capable. This function adds to Widget all necessary mouse handlers to determine that drag process started. 
 	 * 
 	 * @param Widget to get drag capabilities
 	 * @param List of {@link DragOption} used to parameterize drag capabilities
@@ -42,7 +42,8 @@ public class DragAndDrop {
 	}
 	
 	/**
-	 * Makes Widget capable of dragging. Drag is restricted to container Widget size and position.
+	 * Makes Widget drag capable. Drag is restricted to container Widget size and position.
+	 * Container widget does not have to be parent-related widget to dragged widget.
 	 * This function adds to Widget all necessary mouse handlers to determine that drag process started. 
 	 * 
 	 * @param Widget to get drag capabilities
@@ -79,8 +80,8 @@ public class DragAndDrop {
 	
 	/**
 	 * Makes Widget a drag lever. Pulling lever drags another widget (drag proxy). Drag is restricted to container Widget size and position.
+	 * Container widget does not have to be parent-related widget to dragged widget.
 	 * This function adds to Widget all necessary mouse handlers to determine that drag process started. 
-	 * 
 	 * 
 	 * @param Lever widget to be pulled by mouse action
 	 * @param Widget to be moved if lever widget is pulled

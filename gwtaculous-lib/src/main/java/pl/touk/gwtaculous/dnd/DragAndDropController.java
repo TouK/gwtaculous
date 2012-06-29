@@ -295,7 +295,7 @@ public class DragAndDropController {
 			}
 			resetAllDragRelatedDomChanges(dragObject);
 			resetAllDragRelatedFlags();
-			resetAllDragRelatedValues();
+			resetAllDragRelatedParameters();
 		}
 	}
 
@@ -362,7 +362,7 @@ public class DragAndDropController {
 		dropOutEventEnabled = true;
 	}
 	
-	private void resetAllDragRelatedValues() {
+	private void resetAllDragRelatedParameters() {
 		maxMousePositionX = Integer.MAX_VALUE;
 		maxMousePositionY = Integer.MAX_VALUE;
 		minMousePositionX = 0;

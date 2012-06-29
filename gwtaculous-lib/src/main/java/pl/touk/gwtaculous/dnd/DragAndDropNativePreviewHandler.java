@@ -26,6 +26,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		
 		NativeEvent ne = event.getNativeEvent();
+		
 		int clientX = ne.getClientX();
 		int clientY = ne.getClientY();
 		
