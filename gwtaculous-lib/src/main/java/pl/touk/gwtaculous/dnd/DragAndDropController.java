@@ -210,7 +210,6 @@ public class DragAndDropController {
 		return DragMoveEvent.register(eventBus, new DragMoveHandler() {
 			
 			public void onDragMove(DragMoveEvent event) {
-				GWT.log("DragMoveEvent - DragOverEvent & DragOutEvent processing");
 				if (dragOverAndOutEventsEnabled) {
 					DragObject dragObject = event.getDragObject();
 					int mouseClientPositionX = dragObject.getMouseClientPositionX();
