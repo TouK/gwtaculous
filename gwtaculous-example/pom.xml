@@ -13,6 +13,8 @@
 	</parent>
 	
 	<properties>
+		<runTarget>http://localhost:8080/gwtaculous-example/</runTarget>
+		<gwt.noserver>true</gwt.noserver>
 		<gwt.version>2.4.0</gwt.version>
         <gwt.maven.plugin.version>2.4.0</gwt.maven.plugin.version>
         <gwt.class.name>pl.touk.gwtaculous.demo.EffectsDemo</gwt.class.name>
@@ -47,6 +49,9 @@
 				<configuration>
 					<stopPort>9696</stopPort>
 					<stopKey>foo</stopKey>
+					<webAppConfig>
+						<contextPath>/gwtaculous-example</contextPath>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -77,14 +82,7 @@
 		                <artifactId>gwt-maven-plugin</artifactId>
 		                <version>${gwt.maven.plugin.version}</version>
 		                <configuration>
-		                	<sourceDirectory>${project.build.directory}/src/main/java</sourceDirectory>
-		                    <className>${gwt.class.name}</className>
-		                    <outputDirectory> ${project.build.directory}/${project.build.finalName}</outputDirectory>
 		                    <style>PRETTY</style>
-		                    <source>5</source>
-		
-		                    <jvmOptions>-Xss16096k -Djava.awt.headless=true</jvmOptions>
-		                    <fork>true</fork>
 		                    <xmx>1024m</xmx>
 		                    <xms>64m</xms>
 		                </configuration>
