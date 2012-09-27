@@ -306,10 +306,12 @@ public class DragAndDropController {
 	
 	private void calculateMoveRestriction(DragObject dragObject){
 		
-		isMouseMoveAxisX = dragObject.getDragOptions().contains(DragOption.MOVE_AXIS_X);
-		isMouseMoveAxisY = dragObject.getDragOptions().contains(DragOption.MOVE_AXIS_Y);
+		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
 		
-		isMouseMoveRestricted = (isMouseMoveAxisX != isMouseMoveAxisY);
+		isMouseMoveAxisX = dragOptions.contains(DragOption.MOVE_AXIS_X) && (!dragOptions.contains(DragOption.BLOCK_WIDGET));
+		isMouseMoveAxisY = dragOptions.contains(DragOption.MOVE_AXIS_Y) && (!dragOptions.contains(DragOption.BLOCK_WIDGET));;
+		
+		isMouseMoveRestricted = (isMouseMoveAxisX != isMouseMoveAxisY) || (dragOptions.contains(DragOption.BLOCK_WIDGET));
 		
 		if (dragObject.getContainerElement()!= null) {
 			Element container = dragObject.getContainerElement();
@@ -368,13 +370,15 @@ public class DragAndDropController {
 	}
 	
 	private void resetAllDragRelatedDomChanges(DragObject dragObject){
+		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
+		
 		nativePreviewHR.removeHandler();
 		DOMUtil.cancelAllDocumentSelections();
 		
-		if (dragObject.getDragOptions().contains(DragOption.CLONE_WIDGET)) {
+		if (dragOptions.contains(DragOption.CLONE_WIDGET) && (!dragOptions.contains(DragOption.BLOCK_WIDGET))) {
 			DragAndDropUtil.terminateClone(dragObject);
 		}
-		if (dragObject.getDragOptions().contains(DragOption.AUTO_MOVE_CURSOR)) {
+		if (dragOptions.contains(DragOption.AUTO_MOVE_CURSOR)) {
 			dragObject.getDragElement().getStyle().clearCursor();
 		}
 	}

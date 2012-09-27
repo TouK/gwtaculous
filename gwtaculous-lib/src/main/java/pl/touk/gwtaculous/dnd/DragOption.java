@@ -2,6 +2,9 @@ package pl.touk.gwtaculous.dnd;
 
 public enum DragOption {
 	
+	/** Widget position will be NOT changed during drag process*/
+	BLOCK_WIDGET,
+	
 	/** Clones source element and perform actual drag on a copy, clone is automatically terminated when drag stops */
 	CLONE_WIDGET, 
 	

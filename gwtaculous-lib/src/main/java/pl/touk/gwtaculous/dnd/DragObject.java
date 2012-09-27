@@ -52,7 +52,9 @@ public class DragObject {
 		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
 		
 		//TODO implement DragOption.POSITION_ABSOLUTE and DragOption.POSITION_RELATIVE options
-		if (dragOptions.contains(DragOption.CLONE_WIDGET)) {
+		if (dragOptions.contains(DragOption.BLOCK_WIDGET)) {
+			draggedElement = sourceElement;
+		} else if (dragOptions.contains(DragOption.CLONE_WIDGET)) {
 			draggedElement = DragAndDropUtil.cloneAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY, Position.ABSOLUTE);
 		} else {
 			draggedElement = DragAndDropUtil.adaptAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY, Position.FIXED);
@@ -65,23 +67,23 @@ public class DragObject {
 	
 	public void setDragOptions(ArrayList<DragOption> dragOptions) {
 		
-		if (dragOptions.contains(DragOption.SILENT)){
-			dragOptions.remove(DragOption.FIRE_DRAG_INIT_EVENT);
-			dragOptions.remove(DragOption.FIRE_DRAG_START_EVENT);
-			dragOptions.remove(DragOption.FIRE_DRAG_MOVE_EVENT);
-			dragOptions.remove(DragOption.FIRE_DRAG_STOP_EVENT);
-			dragOptions.remove(DragOption.FIRE_DROP_OUT_EVENT);
-		} else if (	!dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT) &&
-					!dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT) &&
-					!dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT) &&
-					!dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT) &&
-					!dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT)) {
-			dragOptions.add(DragOption.FIRE_DRAG_INIT_EVENT);
-			dragOptions.add(DragOption.FIRE_DRAG_START_EVENT);
-			dragOptions.add(DragOption.FIRE_DRAG_MOVE_EVENT);
-			dragOptions.add(DragOption.FIRE_DRAG_STOP_EVENT);
-			dragOptions.add(DragOption.FIRE_DROP_OUT_EVENT);
-		}
+//		if (dragOptions.contains(DragOption.SILENT)){
+//			dragOptions.remove(DragOption.FIRE_DRAG_INIT_EVENT);
+//			dragOptions.remove(DragOption.FIRE_DRAG_START_EVENT);
+//			dragOptions.remove(DragOption.FIRE_DRAG_MOVE_EVENT);
+//			dragOptions.remove(DragOption.FIRE_DRAG_STOP_EVENT);
+//			dragOptions.remove(DragOption.FIRE_DROP_OUT_EVENT);
+//		} else if (	!dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT) &&
+//					!dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT) &&
+//					!dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT) &&
+//					!dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT) &&
+//					!dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT)) {
+//			dragOptions.add(DragOption.FIRE_DRAG_INIT_EVENT);
+//			dragOptions.add(DragOption.FIRE_DRAG_START_EVENT);
+//			dragOptions.add(DragOption.FIRE_DRAG_MOVE_EVENT);
+//			dragOptions.add(DragOption.FIRE_DRAG_STOP_EVENT);
+//			dragOptions.add(DragOption.FIRE_DROP_OUT_EVENT);
+//		}
 		
 		this.dragOptions = dragOptions;
 		
