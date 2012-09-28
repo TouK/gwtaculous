@@ -2,6 +2,9 @@ package pl.touk.gwtaculous.dnd;
 
 public enum DropOption {
 	
+	/** If source Widget is also Handler for one of drop events, it will be automatically registered on EventBus to listen for designated events */
+	AUTO_REGISTER,
+	
 	/** {@link DragStopEvent} dependent. Given container widget will "adopt" dragged widget, dragged widget will become child element of this panel (by default container panel = drop box) */
 	ADOPT_WIDGET, 
 	

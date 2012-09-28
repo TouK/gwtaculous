@@ -73,6 +73,7 @@ public class DragAndDropController {
 	private boolean dragMoveEventEnabled = true;
 	private boolean dragStopEventEnabled = true;
 	private boolean dropOutEventEnabled = true;
+	private boolean dropInEventEnabled = true;
 	
 	private HandlerRegistration nativePreviewHR;
 	
@@ -118,6 +119,7 @@ public class DragAndDropController {
 	public HandlerRegistration makeMeDroppable(final DropObject dropObject) {
 		
 		Widget sourceWidget =  dropObject.getSourceWidget();
+		ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
 		
 		HandlerRegistration dragStopHR = addDragStopHandlerToDroppable(dropObject);
 		HandlerRegistration dragMoveHR = addDragMoveHandlerToDroppable(dropObject);
@@ -125,16 +127,16 @@ public class DragAndDropController {
 		HandlerRegistration dragOverHR = null;
 		HandlerRegistration dragOutHR = null;
 		
-		if (sourceWidget instanceof DropInHandler) {
-			dropInHR = DropInEvent.register(eventBus, (DropInHandler) sourceWidget, sourceWidget);
-		}
-		
-		if (sourceWidget instanceof DragOverHandler) {
-			dragOverHR = DragOverEvent.register(eventBus, (DragOverHandler) sourceWidget, sourceWidget);
-		}
-		
-		if (sourceWidget instanceof DragOutHandler) {
-			dragOutHR = DragOutEvent.register(eventBus, (DragOutHandler) sourceWidget, sourceWidget);
+		if (dropOptions.contains(DropOption.AUTO_REGISTER)) {
+			if (sourceWidget instanceof DropInHandler) {
+				dropInHR = DropInEvent.register(eventBus, (DropInHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DragOverHandler) {
+				dragOverHR = DragOverEvent.register(eventBus, (DragOverHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DragOutHandler) {
+				dragOutHR = DragOutEvent.register(eventBus, (DragOutHandler) sourceWidget, sourceWidget);
+			}
 		}
 		
 
@@ -332,12 +334,13 @@ public class DragAndDropController {
 		
 		if (dragOptions.contains(DragOption.SILENT)) {
 			setAllDragEventsRestricted();
+			dragInitEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT);
+			dragStartEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT);
+			dragMoveEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT);
+			dragStopEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT);
+			dropOutEventEnabled = dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT); 
 		}
-		dragInitEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT);
-		dragStartEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT);
-		dragMoveEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT);
-		dragStopEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT);
-		dropOutEventEnabled = dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT); 
+
 	}
 	
 	private void setAllDragEventsRestricted(){
@@ -360,6 +363,7 @@ public class DragAndDropController {
 		dragMoveEventEnabled = true;
 		dragStopEventEnabled = true;
 		dropOutEventEnabled = true;
+		dropInEventEnabled = true;
 	}
 	
 	private void resetAllDragRelatedParameters() {

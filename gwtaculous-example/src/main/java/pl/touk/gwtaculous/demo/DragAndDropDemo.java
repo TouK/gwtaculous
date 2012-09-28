@@ -98,19 +98,19 @@ public class DragAndDropDemo extends Composite {
 		
 		DragAndDrop.makeMeDraggable(image_3, DragOption.AUTO_MOVE_CURSOR, DragOption.SILENT);
 		
-		//Giving drop like capabilities with auto event registration (source widgets that implements specific handlers are automatically registered on event bus)
 		DragAndDrop.makeMeDroppable(flowPanel_3);
 		
-		DragAndDrop.makeMeDroppable(flowPanel_6, DropOption.ADOPT_WIDGET);
+		//Giving drop like capabilities with automatic drop event registration (DropOption.AUTO_REGISTER)
+		DragAndDrop.makeMeDroppable(flowPanel_6, DropOption.ADOPT_WIDGET, DropOption.AUTO_REGISTER);
 		
-		DragAndDrop.makeMeDroppable(flowPanel_9, DropOption.SILENT, DropOption.FIRE_DRAG_OVER_OUT_EVENT);
+		//Giving drop like capabilities with automatic drop event registration (DropOption.AUTO_REGISTER)
+		DragAndDrop.makeMeDroppable(flowPanel_9, DropOption.AUTO_REGISTER, DropOption.SILENT, DropOption.FIRE_DROP_IN_EVENT, DropOption.FIRE_DRAG_OVER_OUT_EVENT);
 		
-		//Example manual event registration
+		//Example of manual drop like event registration
 		DragOverEvent.register(DragAndDrop.getEventBus(), new DragOverHandler() {
-			
 			@Override
 			public void onDragOver(DragOverEvent event) {
-				flowPanel_6.addStyleName("highlighted");
+				Window.alert("onDragOver event captured !");
 				
 			}
 		}, flowPanel_6);
