@@ -1,4 +1,6 @@
 @echo off
-REM startujemy jetty a potem gwt development mode
+REM szybka kompilacja, startujemy jetty a potem gwt w development mode
+
+call draft.bat
 start jetty.bat start
-starthosted.bat && jetty.bat stop
+starthosted.bat & jetty.bat stop

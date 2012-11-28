@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Data aggregate object for drop related objects and properties.
- * Do not use reference for that object for later use, it's data is valid only for event processing.
+ * Do not use reference to that object for later use, it's data is valid only for event processing.
  *
  */
 public class DropObject {

@@ -2,6 +2,7 @@ package pl.touk.gwtaculous.dnd.event;
 
 import pl.touk.gwtaculous.dnd.DragObject;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -10,14 +11,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * Represents drag move event. This event is fired every time mouse position changes during drag process.
  * This event contains fully initialized {@link DragObject}. Do not use reference for that object for later use, it's data is valid only for event processing.
  */
-public class DragMoveEvent extends GwtEvent<DragMoveHandler> {
+public class DragMoveEvent extends DragEvent<DragMoveHandler> {
 	
 	public static final GwtEvent.Type<DragMoveHandler> TYPE = new GwtEvent.Type<DragMoveHandler>();
 	
-	private DragObject dragObject;
-	
-	public DragMoveEvent(DragObject dragObject){
-		this.dragObject = dragObject;
+	public DragMoveEvent(DragObject dragObject, NativeEvent nativeEvent){
+		super(dragObject, nativeEvent);
 	}
 	
 	@Override
@@ -37,9 +36,5 @@ public class DragMoveEvent extends GwtEvent<DragMoveHandler> {
     public static HandlerRegistration register(EventBus e, DragMoveHandler handler, Object source) {
         return e.addHandlerToSource(TYPE, source, handler);
     }
-
-	public DragObject getDragObject() {
-		return dragObject;
-	}
 
 }

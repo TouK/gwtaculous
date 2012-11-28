@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Data aggregate object for drag related objects and properties.
- * Do not use reference for that object for later use, it's data is valid only for event processing.
+ * Do not use reference to that object for later use, it's data is valid only for event processing.
  *
  */
 public class DragObject {
@@ -42,7 +42,7 @@ public class DragObject {
 		setLeverWidget(leverWidget);
 	}
 	
-	public void init(int mouseClientPositionX,int mouseClientPositionY) {
+	public void init(int mouseClientPositionX, int mouseClientPositionY) {
 		
 		this.mouseClientPositionX = mouseClientPositionX;
 		this.mouseClientPositionY = mouseClientPositionY;
@@ -66,27 +66,7 @@ public class DragObject {
 	}
 	
 	public void setDragOptions(ArrayList<DragOption> dragOptions) {
-		
-//		if (dragOptions.contains(DragOption.SILENT)){
-//			dragOptions.remove(DragOption.FIRE_DRAG_INIT_EVENT);
-//			dragOptions.remove(DragOption.FIRE_DRAG_START_EVENT);
-//			dragOptions.remove(DragOption.FIRE_DRAG_MOVE_EVENT);
-//			dragOptions.remove(DragOption.FIRE_DRAG_STOP_EVENT);
-//			dragOptions.remove(DragOption.FIRE_DROP_OUT_EVENT);
-//		} else if (	!dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT) &&
-//					!dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT) &&
-//					!dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT) &&
-//					!dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT) &&
-//					!dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT)) {
-//			dragOptions.add(DragOption.FIRE_DRAG_INIT_EVENT);
-//			dragOptions.add(DragOption.FIRE_DRAG_START_EVENT);
-//			dragOptions.add(DragOption.FIRE_DRAG_MOVE_EVENT);
-//			dragOptions.add(DragOption.FIRE_DRAG_STOP_EVENT);
-//			dragOptions.add(DragOption.FIRE_DROP_OUT_EVENT);
-//		}
-		
 		this.dragOptions = dragOptions;
-		
 	}
 	
 	public int getMouseRelativePositionX() {

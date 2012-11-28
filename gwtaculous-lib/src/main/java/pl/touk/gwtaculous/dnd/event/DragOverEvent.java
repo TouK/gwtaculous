@@ -3,6 +3,7 @@ package pl.touk.gwtaculous.dnd.event;
 import pl.touk.gwtaculous.dnd.DragObject;
 import pl.touk.gwtaculous.dnd.DropObject;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -12,16 +13,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * This event contains fully initialized {@link DragObject} and {@link DropObject}.
  * Do not use reference for those objects for later use, their data is valid only for event processing.
  */
-public class DragOverEvent extends GwtEvent<DragOverHandler> {
+public class DragOverEvent extends DropEvent<DragOverHandler> {
 	
 	public static final GwtEvent.Type<DragOverHandler> TYPE = new GwtEvent.Type<DragOverHandler>();
 	
-	private DragObject dragObject;
-	private DropObject dropObject;
-	
-	public DragOverEvent(DragObject dragObject, DropObject dropObject){
-		this.dragObject = dragObject;
-		this.dropObject = dropObject;
+	public DragOverEvent(DragObject dragObject, DropObject dropObject, NativeEvent nativeEvent){
+		super(dragObject, dropObject, nativeEvent);
 	}
 	
 	@Override
@@ -42,11 +39,4 @@ public class DragOverEvent extends GwtEvent<DragOverHandler> {
     	return e.addHandlerToSource(TYPE, source, handler);
 	}
 	
-	public DragObject getDragObject() {
-		return dragObject;
-	}
-	
-	public DropObject getDropObject(){
-		return dropObject;
-	}
 }

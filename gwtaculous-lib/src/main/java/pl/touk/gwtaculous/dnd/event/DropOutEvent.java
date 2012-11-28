@@ -3,6 +3,7 @@ package pl.touk.gwtaculous.dnd.event;
 import pl.touk.gwtaculous.dnd.DragObject;
 import pl.touk.gwtaculous.dnd.DropObject;
 
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -12,14 +13,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * This event contains fully initialized {@link DragObject} and {@link DropObject}.
  * Do not use reference for those objects for later use, their data is valid only for event processing.
  */
-public class DropOutEvent extends GwtEvent<DropOutHandler> {
+public class DropOutEvent extends DragEvent<DropOutHandler> {
 	
 	public static final GwtEvent.Type<DropOutHandler> TYPE = new GwtEvent.Type<DropOutHandler>();
 	
-	private DragObject dragObject;
-	
-	public DropOutEvent(DragObject dragObject){
-		this.dragObject = dragObject;
+	public DropOutEvent(DragObject dragObject, NativeEvent nativeEvent){
+		super(dragObject, nativeEvent);
 	}
 	
 	public static HandlerRegistration register(EventBus e, DropOutHandler handler) {
@@ -38,10 +37,6 @@ public class DropOutEvent extends GwtEvent<DropOutHandler> {
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<DropOutHandler> getAssociatedType() {
 		return TYPE;
-	}
-	
-	public DragObject getDragObject() {
-		return dragObject;
 	}
 
 }

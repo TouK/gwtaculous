@@ -50,14 +50,14 @@ public class EffectQueue {
 	}
 	public void setScope(String scope) {
 		this.scope = scope;
-		EffectHelper.setOption(queue, "position", scope);
+		EffectHelper.setOption(queue, "scope", scope);
 	}
 	public int getLimit() {
 		return limit;
 	}
 	public void setLimit(int limit) {
 		this.limit = limit;
-		EffectHelper.setOption(queue, "position", limit);
+		EffectHelper.setOption(queue, "limit", limit);
 	}
 	public JavaScriptObject getQueue(){
 		return queue;

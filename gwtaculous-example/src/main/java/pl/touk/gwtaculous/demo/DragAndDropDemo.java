@@ -111,7 +111,6 @@ public class DragAndDropDemo extends Composite {
 			@Override
 			public void onDragOver(DragOverEvent event) {
 				Window.alert("onDragOver event captured !");
-				
 			}
 		}, flowPanel_6);
 	}
@@ -126,7 +125,16 @@ public class DragAndDropDemo extends Composite {
 	private class EvenMoreCustomFlowPanel extends FlowPanel implements DropInHandler, DragOverHandler, DragOutHandler {
 
 		public void onDropIn(DropInEvent event) {
-			Window.alert("Something was dropped over there !");
+			if (event.getNativeEvent().getShiftKey()) {
+				Window.alert("Something was dropped over there ! (SHIFT)" );
+			} else if (event.getNativeEvent().getCtrlKey()) {
+				Window.alert("Something was dropped over there ! (Ctrl)" );
+			} else if (event.getNativeEvent().getAltKey()) {
+				Window.alert("Something was dropped over there ! (Alt)" );
+			} else {
+				Window.alert("Something was dropped over there !" );
+			}
+			
 		}
 
 		@Override
