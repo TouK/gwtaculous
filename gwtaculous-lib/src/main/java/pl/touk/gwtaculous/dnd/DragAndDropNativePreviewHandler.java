@@ -1,6 +1,8 @@
 package pl.touk.gwtaculous.dnd;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -18,7 +20,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 		this.dragObject = dragElement;
 		this.dragAndDropController = DragAndDropController.getInstance();
 	}
-	
+	//TODO refactor me !!!
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		
 		NativeEvent ne = event.getNativeEvent();
@@ -29,7 +31,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 		if (event.getTypeInt() == Event.ONMOUSEMOVE){
 			ne.preventDefault();
 			dragObject.setMouseClientPosition(ne.getClientX(), ne.getClientY());
-			dragAndDropController.dragMove(dragObject, ne /*, clientX-mouseRelativePositionX, clientY-mouseRelativePositionY*/);
+			dragAndDropController.dragMove(dragObject, ne);
 			event.cancel();
 		} else if (event.getTypeInt() == Event.ONMOUSEUP) {
 			ne.preventDefault();
@@ -40,6 +42,10 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 			ne.preventDefault();
 			dragObject.setMouseClientPosition(clientX, clientY);
 			event.cancel();
+		} else if (event.getTypeInt() == Event.ONKEYDOWN) {
+			if (ne.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+				dragAndDropController.dragStop(dragObject, ne);
+			}
 		}
 	}
 	
