@@ -1,6 +1,5 @@
 package pl.touk.gwtaculous.dnd;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
@@ -20,7 +19,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 		this.dragObject = dragElement;
 		this.dragAndDropController = DragAndDropController.getInstance();
 	}
-	//TODO refactor me !!!
+	
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		
 		NativeEvent ne = event.getNativeEvent();
@@ -44,6 +43,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 			event.cancel();
 		} else if (event.getTypeInt() == Event.ONKEYDOWN) {
 			if (ne.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+				dragObject.setMouseClientPosition(-1, -1);
 				dragAndDropController.dragStop(dragObject, ne);
 			}
 		}
