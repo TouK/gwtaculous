@@ -11,7 +11,7 @@
 	<artifactId>gwtaculous</artifactId>
     <packaging>pom</packaging>
 	<name>GWTaculous project</name>
-    <version>0.3.2</version>
+    <version>0.3.3-SNAPSHOT</version>
 
     <modules>
         <module>gwtaculous-lib</module>
@@ -19,9 +19,9 @@
     </modules>
 	
 	<scm>
-        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.3.2</connection>
-        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.3.2</developerConnection>
-        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.3.2</url>
+        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</connection>
+        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</developerConnection>
+        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</url>
     </scm>
 	
 	<build>
