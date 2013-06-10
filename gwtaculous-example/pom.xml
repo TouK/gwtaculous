@@ -4,12 +4,12 @@
 	<artifactId>gwtaculous-example</artifactId>
 	<packaging>war</packaging>
 	<name>Example of GWTaculous library usage</name>
-	<version>0.3.4-SNAPSHOT</version>
+	<version>0.3.3</version>
 	
 	<parent>
 		<groupId>pl.touk.gwtaculous</groupId>
 		<artifactId>gwtaculous</artifactId>
-		<version>0.3.4-SNAPSHOT</version>
+		<version>0.3.3</version>
 	</parent>
 	
 	<properties>
