@@ -55,6 +55,7 @@ public class DragAndDropUtil {
 		element.getStyle().setPosition(position);
 		element.getStyle().setMargin(0, Unit.PX);
 		element.getStyle().setZIndex(10000);
+		element.addClassName("dragged");
 		DOMUtil.setElementPosition(element, posX, posY);
 		return element;
 	}
@@ -65,6 +66,7 @@ public class DragAndDropUtil {
 		dragElement.getStyle().setZIndex(10000);
 		dragElement.getStyle().setPosition(position);
 		dragElement.getStyle().setOpacity(0.75);
+		dragElement.addClassName("dragged clone");
 		dragElement.appendChild(element.cloneNode(true));
 		dragElement.getFirstChildElement().getStyle().setMargin(0, Unit.PX);
 		dragElement.getFirstChildElement().getStyle().setPosition(Position.STATIC);

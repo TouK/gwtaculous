@@ -2,6 +2,9 @@ package pl.touk.gwtaculous.dnd;
 
 public enum DragOption {
 	
+	/** If source Widget is also Handler for one of drag events, it will be automatically registered on EventBus to listen for designated events */
+	AUTO_REGISTER,
+	
 	/** Widget position will be NOT changed during drag process*/
 	BLOCK_WIDGET,
 	
@@ -48,13 +51,4 @@ public enum DragOption {
 	/** Mouse cursor over dragged element is set to css "move" value during drag process */
 	AUTO_MOVE_CURSOR,
 	
-	/** Experimental: Positioning is accomplished by changing "absolute" position of element rather then changing "fixed" position 
-	 * 	This option is mutually exclusive with POSITION_RELATIVE
-	 */
-	POSITION_ABSOLUTE,
-	
-	/** Experimental: Positioning is accomplished by changing "relative" position of element rather then changing "fixed" position 
-	 *	This option is mutually exclusive with POSITION_ABSOLUTE 
-	 */
-	POSITION_RELATIVE
 }

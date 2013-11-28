@@ -3,6 +3,7 @@ package pl.touk.gwtaculous.dnd;
 import java.util.ArrayList;
 
 import pl.touk.gwtaculous.dnd.event.DragInitEvent;
+import pl.touk.gwtaculous.dnd.event.DragInitHandler;
 import pl.touk.gwtaculous.dnd.event.DragMoveEvent;
 import pl.touk.gwtaculous.dnd.event.DragMoveHandler;
 import pl.touk.gwtaculous.dnd.event.DragOutEvent;
@@ -10,11 +11,13 @@ import pl.touk.gwtaculous.dnd.event.DragOutHandler;
 import pl.touk.gwtaculous.dnd.event.DragOverEvent;
 import pl.touk.gwtaculous.dnd.event.DragOverHandler;
 import pl.touk.gwtaculous.dnd.event.DragStartEvent;
+import pl.touk.gwtaculous.dnd.event.DragStartHandler;
 import pl.touk.gwtaculous.dnd.event.DragStopEvent;
 import pl.touk.gwtaculous.dnd.event.DragStopHandler;
 import pl.touk.gwtaculous.dnd.event.DropInEvent;
 import pl.touk.gwtaculous.dnd.event.DropInHandler;
 import pl.touk.gwtaculous.dnd.event.DropOutEvent;
+import pl.touk.gwtaculous.dnd.event.DropOutHandler;
 import pl.touk.gwtaculous.dnd.utils.DOMUtil;
 import pl.touk.gwtaculous.dnd.utils.MultiHandlerRegistration;
 
@@ -111,11 +114,39 @@ public class DragAndDropController {
 	
 	public HandlerRegistration makeMeDraggable(DragObject dragObject) {
 		
+		Widget sourceWidget =  dragObject.getSourceWidget();
+		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
+		
 		HandlerRegistration mouseDownEventHR = addMouseDownHandlerToDraggable(dragObject);
 		HandlerRegistration mouseUpEventHR = addMouseUpHandlerToDraggable(dragObject);
 		HandlerRegistration mouseMoveEventHR = addMouseMoveHandlerToDraggable(dragObject);
+		HandlerRegistration dragInitHR = null;
+		HandlerRegistration dragStartHR = null;
+		HandlerRegistration dragMoveHR = null;
+		HandlerRegistration dragStopHR = null;
+		HandlerRegistration dragDropOutHR = null;
 		
-		return new MultiHandlerRegistration(mouseMoveEventHR, mouseUpEventHR, mouseDownEventHR);
+		if (dragOptions.contains(DropOption.AUTO_REGISTER)) {
+			if (sourceWidget instanceof DragInitHandler) {
+				dragInitHR = DragInitEvent.register(eventBus, (DragInitHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DragStartHandler) {
+				dragStartHR = DragStartEvent.register(eventBus, (DragStartHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DragMoveHandler) {
+				dragMoveHR = DragMoveEvent.register(eventBus, (DragMoveHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DragStopHandler) {
+				dragStopHR = DragStopEvent.register(eventBus, (DragStopHandler) sourceWidget, sourceWidget);
+			}
+			if (sourceWidget instanceof DropOutHandler) {
+				dragDropOutHR = DropOutEvent.register(eventBus, (DropOutHandler) sourceWidget, sourceWidget);
+			}
+		}
+		
+		return new MultiHandlerRegistration(
+				mouseMoveEventHR, mouseUpEventHR, mouseDownEventHR, 
+				dragInitHR, dragStartHR, dragMoveHR, dragStopHR, dragDropOutHR);
 	}
 	
 	public HandlerRegistration makeMeDroppable(final DropObject dropObject) {
@@ -142,7 +173,8 @@ public class DragAndDropController {
 		}
 		
 
-		return new MultiHandlerRegistration(dragStopHR, dragMoveHR, dropInHR, dragOverHR, dragOutHR);
+		return new MultiHandlerRegistration(
+				dragStopHR, dragMoveHR, dropInHR, dragOverHR, dragOutHR);
 	}
 	
 	private HandlerRegistration addMouseDownHandlerToDraggable(final DragObject dragObject){
