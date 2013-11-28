@@ -126,7 +126,7 @@ public class DragAndDropController {
 		HandlerRegistration dragStopHR = null;
 		HandlerRegistration dragDropOutHR = null;
 		
-		if (dragOptions.contains(DropOption.AUTO_REGISTER)) {
+		if (dragOptions.contains(DragOption.AUTO_REGISTER)) {
 			if (sourceWidget instanceof DragInitHandler) {
 				dragInitHR = DragInitEvent.register(eventBus, (DragInitHandler) sourceWidget, sourceWidget);
 			}
