@@ -5,7 +5,7 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * Handler interface for {@link DragStopEvent} events.
  */
-public interface DragStopHandler extends EventHandler {
+public interface DragStopHandler extends DragHandler {
 
 	/**
 	 * Called when DragStopEvent is fired.

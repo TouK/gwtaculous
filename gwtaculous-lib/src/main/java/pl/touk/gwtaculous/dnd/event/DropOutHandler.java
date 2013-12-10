@@ -5,7 +5,7 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * Handler interface for {@link DropOutEvent} events.
  */
-public interface DropOutHandler extends EventHandler {
+public interface DropOutHandler extends DragHandler {
 
 	/**
 	 * Called when DropOutEvent is fired.

@@ -2,23 +2,9 @@ package pl.touk.gwtaculous.dnd;
 
 import java.util.ArrayList;
 
-import pl.touk.gwtaculous.dnd.event.DragInitEvent;
-import pl.touk.gwtaculous.dnd.event.DragInitHandler;
-import pl.touk.gwtaculous.dnd.event.DragMoveEvent;
-import pl.touk.gwtaculous.dnd.event.DragMoveHandler;
-import pl.touk.gwtaculous.dnd.event.DragOutEvent;
-import pl.touk.gwtaculous.dnd.event.DragOutHandler;
-import pl.touk.gwtaculous.dnd.event.DragOverEvent;
-import pl.touk.gwtaculous.dnd.event.DragOverHandler;
-import pl.touk.gwtaculous.dnd.event.DragStartEvent;
-import pl.touk.gwtaculous.dnd.event.DragStartHandler;
-import pl.touk.gwtaculous.dnd.event.DragStopEvent;
-import pl.touk.gwtaculous.dnd.event.DragStopHandler;
-import pl.touk.gwtaculous.dnd.event.DropInEvent;
-import pl.touk.gwtaculous.dnd.event.DropInHandler;
-import pl.touk.gwtaculous.dnd.event.DropOutEvent;
-import pl.touk.gwtaculous.dnd.event.DropOutHandler;
+import pl.touk.gwtaculous.dnd.event.*;
 import pl.touk.gwtaculous.dnd.utils.DOMUtil;
+import pl.touk.gwtaculous.dnd.utils.EventBusUtil;
 import pl.touk.gwtaculous.dnd.utils.MultiHandlerRegistration;
 
 import com.google.gwt.core.client.GWT;
@@ -111,8 +97,12 @@ public class DragAndDropController {
 	public EventBus getEventBus() {
 		return eventBus;
 	}
+
+    public HandlerRegistration makeMeDraggable(DragObject dragObject) {
+        return makeMeDraggable(dragObject, null);
+    }
 	
-	public HandlerRegistration makeMeDraggable(DragObject dragObject) {
+	public HandlerRegistration makeMeDraggable(DragObject dragObject, DragHandler dragHandler) {
 		
 		Widget sourceWidget =  dragObject.getSourceWidget();
 		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
@@ -120,61 +110,49 @@ public class DragAndDropController {
 		HandlerRegistration mouseDownEventHR = addMouseDownHandlerToDraggable(dragObject);
 		HandlerRegistration mouseUpEventHR = addMouseUpHandlerToDraggable(dragObject);
 		HandlerRegistration mouseMoveEventHR = addMouseMoveHandlerToDraggable(dragObject);
-		HandlerRegistration dragInitHR = null;
-		HandlerRegistration dragStartHR = null;
-		HandlerRegistration dragMoveHR = null;
-		HandlerRegistration dragStopHR = null;
-		HandlerRegistration dragDropOutHR = null;
+
+        MultiHandlerRegistration sourceWidgetDragEventsHR = null;
+        MultiHandlerRegistration customHandlerDragEventsHR = null;
 		
 		if (dragOptions.contains(DragOption.AUTO_REGISTER)) {
-			if (sourceWidget instanceof DragInitHandler) {
-				dragInitHR = DragInitEvent.register(eventBus, (DragInitHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DragStartHandler) {
-				dragStartHR = DragStartEvent.register(eventBus, (DragStartHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DragMoveHandler) {
-				dragMoveHR = DragMoveEvent.register(eventBus, (DragMoveHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DragStopHandler) {
-				dragStopHR = DragStopEvent.register(eventBus, (DragStopHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DropOutHandler) {
-				dragDropOutHR = DropOutEvent.register(eventBus, (DropOutHandler) sourceWidget, sourceWidget);
-			}
+            if (sourceWidget instanceof DragHandler) {
+                sourceWidgetDragEventsHR = EventBusUtil.registerDragHandlers(eventBus, (DragHandler) sourceWidget, sourceWidget);
+            }
 		}
+
+        if (dragHandler != null) {
+            customHandlerDragEventsHR = EventBusUtil.registerDragHandlers(eventBus, dragHandler, sourceWidget);
+        }
 		
 		return new MultiHandlerRegistration(
-				mouseMoveEventHR, mouseUpEventHR, mouseDownEventHR, 
-				dragInitHR, dragStartHR, dragMoveHR, dragStopHR, dragDropOutHR);
+				mouseMoveEventHR, mouseUpEventHR, mouseDownEventHR, sourceWidgetDragEventsHR, customHandlerDragEventsHR);
 	}
+
+    public HandlerRegistration makeMeDroppable(DropObject dropObject) {
+        return makeMeDroppable(dropObject, null);
+    }
 	
-	public HandlerRegistration makeMeDroppable(final DropObject dropObject) {
+	public HandlerRegistration makeMeDroppable(DropObject dropObject, DropHandler dropHandler) {
 		
 		Widget sourceWidget =  dropObject.getSourceWidget();
 		ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
 		
 		HandlerRegistration dragStopHR = addDragStopHandlerToDroppable(dropObject);
 		HandlerRegistration dragMoveHR = addDragMoveHandlerToDroppable(dropObject);
-		HandlerRegistration dropInHR = null;
-		HandlerRegistration dragOverHR = null;
-		HandlerRegistration dragOutHR = null;
+        MultiHandlerRegistration sourceWidgetDropEventsHR = null;
+        MultiHandlerRegistration customHandlerDropEventsHR = null;
 		
 		if (dropOptions.contains(DropOption.AUTO_REGISTER)) {
-			if (sourceWidget instanceof DropInHandler) {
-				dropInHR = DropInEvent.register(eventBus, (DropInHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DragOverHandler) {
-				dragOverHR = DragOverEvent.register(eventBus, (DragOverHandler) sourceWidget, sourceWidget);
-			}
-			if (sourceWidget instanceof DragOutHandler) {
-				dragOutHR = DragOutEvent.register(eventBus, (DragOutHandler) sourceWidget, sourceWidget);
-			}
+            if (sourceWidget instanceof DropHandler) {
+                sourceWidgetDropEventsHR = EventBusUtil.registerDropHandlers(eventBus, (DropHandler) sourceWidget, sourceWidget);
+            }
 		}
-		
 
-		return new MultiHandlerRegistration(
-				dragStopHR, dragMoveHR, dropInHR, dragOverHR, dragOutHR);
+        if (dropHandler != null) {
+            customHandlerDropEventsHR = EventBusUtil.registerDropHandlers(eventBus, dropHandler, sourceWidget);
+        }
+
+		return new MultiHandlerRegistration(dragStopHR, dragMoveHR, sourceWidgetDropEventsHR, customHandlerDropEventsHR);
 	}
 	
 	private HandlerRegistration addMouseDownHandlerToDraggable(final DragObject dragObject){

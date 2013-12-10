@@ -5,7 +5,7 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * Handler interface for {@link DropInEvent} events.
  */
-public interface DropInHandler extends EventHandler {
+public interface DropInHandler extends DropHandler {
 
 	/**
 	 * Called when DropInEvent is fired.

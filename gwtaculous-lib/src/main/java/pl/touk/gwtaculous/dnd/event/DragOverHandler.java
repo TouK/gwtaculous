@@ -5,7 +5,7 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * Handler interface for {@link DragOverEvent} events.
  */
-public interface DragOverHandler extends EventHandler {
+public interface DragOverHandler extends DropHandler {
 
 	/**
 	 * Called when DragOverEvent is fired.
