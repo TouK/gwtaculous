@@ -10,6 +10,12 @@ public class DOMUtil {
 		      $wnd.getSelection().removeAllRanges();
 		    } catch(e) { throw new Error("unselect exception:\n" + e); }
 		}-*/;
+
+        public static void centerElementOnPosition(Element elem, int posX, int posY){
+            int elementWidth = elem.getOffsetWidth();
+            int elementHeight = elem.getOffsetHeight();
+            setElementPosition(elem, posX - elementWidth/2, posY - elementHeight/2);
+        }
 	  
 	  	public static void setElementPosition(Element elem, int left, int top) {
 	  		elem.getStyle().setPropertyPx("left", left);

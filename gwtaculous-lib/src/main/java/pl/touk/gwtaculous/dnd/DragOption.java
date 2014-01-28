@@ -9,7 +9,10 @@ public enum DragOption {
 	BLOCK_WIDGET,
 	
 	/** Clones source element and perform actual drag on a copy, clone is automatically terminated when drag stops */
-	CLONE_WIDGET, 
+	CLONE_WIDGET,
+
+    /** Dragged widget position will be centered under mouse cursor on drag start */
+    CENTER_WIDGET_ON_CURSOR,
 	
 	/** After successful drag fix position of source element to last known position of its dragged clone */
 	MOVE_TO_CLONE,

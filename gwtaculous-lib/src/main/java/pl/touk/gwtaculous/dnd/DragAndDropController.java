@@ -261,14 +261,22 @@ public class DragAndDropController {
 		
 		calculateMoveRestriction(dragObject);
 		initializeDomChanges(dragObject);
+        resetDragWidgetPositionIfNeeded(dragObject);
 		
 		if (dragStartEventEnabled) {
 			GWT.log("DragStartEvent");
 			eventBus.fireEventFromSource(new DragStartEvent(dragObject, ne), dragObject.getSourceWidget());
 		}
 	}
-	
-	protected void dragMove(DragObject dragObject, NativeEvent ne){
+
+    private void resetDragWidgetPositionIfNeeded(DragObject dragObject) {
+        ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
+        if (dragOptions.contains(DragOption.CENTER_WIDGET_ON_CURSOR)) {
+            DOMUtil.centerElementOnPosition(dragObject.getDragElement(), dragObject.getMouseClientPositionX(), dragObject.getMouseClientPositionY());
+        }
+    }
+
+    protected void dragMove(DragObject dragObject, NativeEvent ne){
 		
 		int posX = ne.getClientX() - mouseRelativePositionX;
 		int posY = ne.getClientY() - mouseRelativePositionY;
