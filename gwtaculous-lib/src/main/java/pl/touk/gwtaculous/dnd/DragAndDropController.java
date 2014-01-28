@@ -21,6 +21,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -251,17 +252,22 @@ public class DragAndDropController {
 			eventBus.fireEventFromSource(new DragInitEvent(dragObject, ne), dragObject.getSourceWidget());
 		}
 		
-		dragObject.init(ne.getClientX(), ne.getClientY());
+		dragObject.init(ne.getClientX(), ne.getClientY());		
+	}
+	
+	private void setMouseRelativePositionCache(DragObject dragObject){
 		mouseRelativePositionX = dragObject.getMouseRelativePositionX();
 		mouseRelativePositionY = dragObject.getMouseRelativePositionY();
-		
 	}
 	
 	protected void dragStart(DragObject dragObject, NativeEvent ne){
 		
 		calculateMoveRestriction(dragObject);
 		initializeDomChanges(dragObject);
-        resetDragWidgetPositionIfNeeded(dragObject);
+		
+		//TODO move resetDragWidgetPositionIfNeeded to dragObject initialization ?
+		resetDragWidgetPositionIfNeeded(dragObject, ne.getClientX(), ne.getClientY());
+		setMouseRelativePositionCache(dragObject);
 		
 		if (dragStartEventEnabled) {
 			GWT.log("DragStartEvent");
@@ -269,10 +275,13 @@ public class DragAndDropController {
 		}
 	}
 
-    private void resetDragWidgetPositionIfNeeded(DragObject dragObject) {
-        ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
+    private void resetDragWidgetPositionIfNeeded(DragObject dragObject, int mouseClientPositionX, int mouseClientPositionY) {
+        //TODO create dragOptionsCache in DragAndDropController
+    	ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
         if (dragOptions.contains(DragOption.CENTER_WIDGET_ON_CURSOR)) {
-            DOMUtil.centerElementOnPosition(dragObject.getDragElement(), dragObject.getMouseClientPositionX(), dragObject.getMouseClientPositionY());
+            DOMUtil.centerElementOnPosition(dragObject.getDragElement(), mouseClientPositionX, mouseClientPositionY);
+            dragObject.reset(mouseClientPositionX, mouseClientPositionY);
+            GWT.log("DragWidget reset position: " + dragObject.getDragElement().getAbsoluteTop() + " " + dragObject.getDragElement().getAbsoluteLeft());
         }
     }
 

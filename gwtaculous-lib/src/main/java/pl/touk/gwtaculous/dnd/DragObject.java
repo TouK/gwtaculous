@@ -51,7 +51,6 @@ public class DragObject {
 		this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
 		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
 		
-		//TODO implement DragOption.POSITION_ABSOLUTE and DragOption.POSITION_RELATIVE options
 		if (dragOptions.contains(DragOption.BLOCK_WIDGET)) {
 			draggedElement = sourceElement;
 		} else if (dragOptions.contains(DragOption.CLONE_WIDGET)) {
@@ -61,10 +60,19 @@ public class DragObject {
 		}
 	}
 	
+	public void reset(int mouseClientPositionX, int mouseClientPositionY){
+		//TODO check if DragObject was initialized !!!
+		this.mouseClientPositionX = mouseClientPositionX;
+		this.mouseClientPositionY = mouseClientPositionY;
+		this.mouseRelativePositionX = DOMUtil.getMouseRelativePositionX(draggedElement, mouseClientPositionX);
+		this.mouseRelativePositionY = DOMUtil.getMouseRelativePositionY(draggedElement, mouseClientPositionY);
+		this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
+		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
+	}
+	
 	public ArrayList<DragOption> getDragOptions() {
 		return dragOptions;
 	}
-	
 	public void setDragOptions(ArrayList<DragOption> dragOptions) {
 		this.dragOptions = dragOptions;
 	}
