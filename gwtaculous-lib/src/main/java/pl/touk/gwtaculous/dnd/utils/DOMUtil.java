@@ -50,5 +50,15 @@ public class DOMUtil {
 		public static int getMouseRelativePositionY(Element target, int mouseClientPositionY) {
 			return mouseClientPositionY - target.getAbsoluteTop() + target.getScrollTop() + target.getOwnerDocument().getScrollTop();
 	    }
+		
+		public static boolean isFormElement(Element element) {
+			String elementNodeName = element.getNodeName().toUpperCase();
+			if (	"SELECT".equals(elementNodeName) ||
+					"INPUT".equals(elementNodeName) || 
+					"TEXTAREA".equals(elementNodeName)) {
+				return true;
+			}
+			return false;
+		}
 	
 }

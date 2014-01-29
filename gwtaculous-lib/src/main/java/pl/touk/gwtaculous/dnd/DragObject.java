@@ -71,10 +71,10 @@ public class DragObject {
 	}
 	
 	public ArrayList<DragOption> getDragOptions() {
-		return dragOptions;
+		return new ArrayList<DragOption>(dragOptions);
 	}
 	public void setDragOptions(ArrayList<DragOption> dragOptions) {
-		this.dragOptions = dragOptions;
+		this.dragOptions = new ArrayList<DragOption>(dragOptions);
 	}
 	
 	public int getMouseRelativePositionX() {

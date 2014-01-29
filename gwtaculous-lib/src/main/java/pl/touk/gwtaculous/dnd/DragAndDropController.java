@@ -2,10 +2,17 @@ package pl.touk.gwtaculous.dnd;
 
 import java.util.ArrayList;
 
-import pl.touk.gwtaculous.dnd.event.*;
+import pl.touk.gwtaculous.dnd.event.DragInitEvent;
+import pl.touk.gwtaculous.dnd.event.DragMoveEvent;
+import pl.touk.gwtaculous.dnd.event.DragMoveHandler;
+import pl.touk.gwtaculous.dnd.event.DragOutEvent;
+import pl.touk.gwtaculous.dnd.event.DragOverEvent;
+import pl.touk.gwtaculous.dnd.event.DragStartEvent;
+import pl.touk.gwtaculous.dnd.event.DragStopEvent;
+import pl.touk.gwtaculous.dnd.event.DragStopHandler;
+import pl.touk.gwtaculous.dnd.event.DropInEvent;
+import pl.touk.gwtaculous.dnd.event.DropOutEvent;
 import pl.touk.gwtaculous.dnd.utils.DOMUtil;
-import pl.touk.gwtaculous.dnd.utils.EventBusUtil;
-import pl.touk.gwtaculous.dnd.utils.MultiHandlerRegistration;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -21,9 +28,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Main drag & drop controller. This class is singleton and can be initialized only once. 
@@ -67,6 +72,8 @@ public class DragAndDropController {
 	private boolean dragStopEventEnabled = true;
 	private boolean dropOutEventEnabled = true;
 	
+	private ArrayList<DragOption> dragOptionsCache = new ArrayList<DragOption>();
+	
 	private HandlerRegistration nativePreviewHR;
 	
 	public static DragAndDropController getInstance() {
@@ -98,82 +105,24 @@ public class DragAndDropController {
 	public EventBus getEventBus() {
 		return eventBus;
 	}
-
-    public HandlerRegistration makeMeDraggable(DragObject dragObject) {
-        return makeMeDraggable(dragObject, null);
-    }
 	
-	public HandlerRegistration makeMeDraggable(DragObject dragObject, DragHandler dragHandler) {
-		
-		Widget sourceWidget =  dragObject.getSourceWidget();
-		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
-		
-		HandlerRegistration mouseDownEventHR = addMouseDownHandlerToDraggable(dragObject);
-		HandlerRegistration mouseUpEventHR = addMouseUpHandlerToDraggable(dragObject);
-		HandlerRegistration mouseMoveEventHR = addMouseMoveHandlerToDraggable(dragObject);
-
-        MultiHandlerRegistration sourceWidgetDragEventsHR = null;
-        MultiHandlerRegistration customHandlerDragEventsHR = null;
-		
-		if (dragOptions.contains(DragOption.AUTO_REGISTER)) {
-            if (sourceWidget instanceof DragHandler) {
-                sourceWidgetDragEventsHR = EventBusUtil.registerDragHandlers(eventBus, (DragHandler) sourceWidget, sourceWidget);
-            }
-		}
-
-        if (dragHandler != null) {
-            customHandlerDragEventsHR = EventBusUtil.registerDragHandlers(eventBus, dragHandler, sourceWidget);
-        }
-		
-		return new MultiHandlerRegistration(
-				mouseMoveEventHR, mouseUpEventHR, mouseDownEventHR, sourceWidgetDragEventsHR, customHandlerDragEventsHR);
-	}
-
-    public HandlerRegistration makeMeDroppable(DropObject dropObject) {
-        return makeMeDroppable(dropObject, null);
-    }
-	
-	public HandlerRegistration makeMeDroppable(DropObject dropObject, DropHandler dropHandler) {
-		
-		Widget sourceWidget =  dropObject.getSourceWidget();
-		ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
-		
-		HandlerRegistration dragStopHR = addDragStopHandlerToDroppable(dropObject);
-		HandlerRegistration dragMoveHR = addDragMoveHandlerToDroppable(dropObject);
-        MultiHandlerRegistration sourceWidgetDropEventsHR = null;
-        MultiHandlerRegistration customHandlerDropEventsHR = null;
-		
-		if (dropOptions.contains(DropOption.AUTO_REGISTER)) {
-            if (sourceWidget instanceof DropHandler) {
-                sourceWidgetDropEventsHR = EventBusUtil.registerDropHandlers(eventBus, (DropHandler) sourceWidget, sourceWidget);
-            }
-		}
-
-        if (dropHandler != null) {
-            customHandlerDropEventsHR = EventBusUtil.registerDropHandlers(eventBus, dropHandler, sourceWidget);
-        }
-
-		return new MultiHandlerRegistration(dragStopHR, dragMoveHR, sourceWidgetDropEventsHR, customHandlerDropEventsHR);
-	}
-	
-	private HandlerRegistration addMouseDownHandlerToDraggable(final DragObject dragObject){
-		final DraggableWidget draggable = dragObject.getLeverWidget();
-		return draggable.addMouseDownHandler(new MouseDownHandler() {
+	public MouseDownHandler draggableMouseDownHandler(final DragObject dragObject){
+		return new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
 				Element element = event.getNativeEvent().getEventTarget().cast();
-				// On some browsers SELECT element operate on "default" onMouseDown mechanism and preventDefault() disables it,
+				// On some browsers FORM elements operate on "default" onMouseDown mechanism and preventDefault() disable them,
 				// we don't wont that to happen
-				if (!element.getNodeName().equalsIgnoreCase("select")) {
+				//TODO event.preventDefault() we need more control on that behavior especially on children nodes
+				if (!DOMUtil.isFormElement(element)) {
 					event.preventDefault();
 				}
 				isMouseDown = true;
 			}
-		});
+		};
 	}
 	
-	private HandlerRegistration addMouseMoveHandlerToDraggable(final DragObject dragObject){
-		final DraggableWidget draggable = dragObject.getLeverWidget();
-		return draggable.addMouseMoveHandler(new MouseMoveHandler() {
+	public MouseMoveHandler draggableMouseMoveHandler(final DragObject dragObject){
+		return new MouseMoveHandler() {
 			public void onMouseMove(MouseMoveEvent event) {
 				event.getNativeEvent().preventDefault();
 				if (isMouseDown && !isDragInProgress) {
@@ -181,25 +130,22 @@ public class DragAndDropController {
 					dragStart(dragObject, event.getNativeEvent());
 				}
 			}
-		});
+		};
 	}
 	
-	private HandlerRegistration addMouseUpHandlerToDraggable(final DragObject dragObject){
-		final DraggableWidget draggable = dragObject.getLeverWidget();
-		return draggable.addMouseUpHandler(new MouseUpHandler() {
+	public MouseUpHandler draggableMouseUpHandler(final DragObject dragObject){
+		return new MouseUpHandler() {
 			public void onMouseUp(MouseUpEvent event) {
 				event.getNativeEvent().preventDefault();
 				isMouseDown = false;
 			}
-		});
+		};
 	}
 	
-	private HandlerRegistration addDragStopHandlerToDroppable(final DropObject dropObject){
-		
-		final ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
-		final boolean dropInEnabled = dropOptions.contains(DropOption.FIRE_DROP_IN_EVENT) || ! dropOptions.contains(DropOption.SILENT);
-		
-		return DragStopEvent.register(eventBus, new DragStopHandler() {
+	public DragStopHandler droppableDragStopHandler(final DropObject dropObject){
+		return new DragStopHandler() {
+			private ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
+			private boolean dropInEnabled = dropOptions.contains(DropOption.FIRE_DROP_IN_EVENT) || ! dropOptions.contains(DropOption.SILENT);
 			public void onDragStop(DragStopEvent event) {
 				DragObject dragObject = event.getDragObject();
 				if (DragAndDropUtil.isDropSuccessful(dragObject, dropObject)) {
@@ -210,19 +156,17 @@ public class DragAndDropController {
 					}
 					if (dropInEnabled) {
 						GWT.log("DropInEvent");
-						eventBus.fireEventFromSource(new DropInEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
+						DragAndDrop.getEventBus().fireEventFromSource(new DropInEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
 					}
 				}
 			}
-		});
+		};
 	}
 	
-	private HandlerRegistration addDragMoveHandlerToDroppable(final DropObject dropObject){
-		
-		final ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
-		final boolean dragOverAndOutEventsEnabled = dropOptions.contains(DropOption.FIRE_DRAG_OVER_OUT_EVENT) || ! dropOptions.contains(DropOption.SILENT);
-		
-		return DragMoveEvent.register(eventBus, new DragMoveHandler() {
+	public DragMoveHandler droppableDragMoveHandler(final DropObject dropObject){
+		return new DragMoveHandler() {
+			private ArrayList<DropOption> dropOptions = dropObject.getDropOptions();
+			private boolean dragOverAndOutEventsEnabled = dropOptions.contains(DropOption.FIRE_DRAG_OVER_OUT_EVENT) || ! dropOptions.contains(DropOption.SILENT);
 			
 			public void onDragMove(DragMoveEvent event) {
 				if (dragOverAndOutEventsEnabled) {
@@ -232,19 +176,20 @@ public class DragAndDropController {
 					
 					if (DragAndDropUtil.hasDragWentOver(dropObject, mouseClientPositionX, mouseClientPositionY)) {
 						GWT.log("DragOverEvent");
-						eventBus.fireEventFromSource(new DragOverEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
+						DragAndDrop.getEventBus().fireEventFromSource(new DragOverEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
 					} else if (DragAndDropUtil.hasDragWentOut(dropObject, mouseClientPositionX, mouseClientPositionY)) {
 						GWT.log("DragOutEvent");
-						eventBus.fireEventFromSource(new DragOutEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
+						DragAndDrop.getEventBus().fireEventFromSource(new DragOutEvent(dragObject, dropObject, event.getNativeEvent()), dropObject.getSourceWidget());
 					}
 				}
 			}
-		});
+		};
 	}
 	
 	protected void dragInit(DragObject dragObject, NativeEvent ne) {
 		isDragInProgress = true;
 		isDropIn = false;
+		initializeDragOptionsCache(dragObject);
 		calculateEventRestrictions(dragObject);
 		
 		if (dragInitEventEnabled){
@@ -253,11 +198,6 @@ public class DragAndDropController {
 		}
 		
 		dragObject.init(ne.getClientX(), ne.getClientY());		
-	}
-	
-	private void setMouseRelativePositionCache(DragObject dragObject){
-		mouseRelativePositionX = dragObject.getMouseRelativePositionX();
-		mouseRelativePositionY = dragObject.getMouseRelativePositionY();
 	}
 	
 	protected void dragStart(DragObject dragObject, NativeEvent ne){
@@ -274,16 +214,6 @@ public class DragAndDropController {
 			eventBus.fireEventFromSource(new DragStartEvent(dragObject, ne), dragObject.getSourceWidget());
 		}
 	}
-
-    private void resetDragWidgetPositionIfNeeded(DragObject dragObject, int mouseClientPositionX, int mouseClientPositionY) {
-        //TODO create dragOptionsCache in DragAndDropController
-    	ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
-        if (dragOptions.contains(DragOption.CENTER_WIDGET_ON_CURSOR)) {
-            DOMUtil.centerElementOnPosition(dragObject.getDragElement(), mouseClientPositionX, mouseClientPositionY);
-            dragObject.reset(mouseClientPositionX, mouseClientPositionY);
-            GWT.log("DragWidget reset position: " + dragObject.getDragElement().getAbsoluteTop() + " " + dragObject.getDragElement().getAbsoluteLeft());
-        }
-    }
 
     protected void dragMove(DragObject dragObject, NativeEvent ne){
 		
@@ -332,24 +262,23 @@ public class DragAndDropController {
 			resetAllDragRelatedDomChanges(dragObject);
 			resetAllDragRelatedFlags();
 			resetAllDragRelatedParameters();
+			resetDragOptionsCache();
 		}
 	}
 
 	private void initializeDomChanges(DragObject dragObject){
 		nativePreviewHR = Event.addNativePreviewHandler(new DragAndDropNativePreviewHandler(dragObject));
-		if (dragObject.getDragOptions().contains(DragOption.AUTO_MOVE_CURSOR)) {
+		if (dragOptionsCache.contains(DragOption.AUTO_MOVE_CURSOR)) {
 			dragObject.getDragElement().getStyle().setCursor(Cursor.MOVE);
 		}
 	}
 	
 	private void calculateMoveRestriction(DragObject dragObject){
 		
-		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
+		isMouseMoveAxisX = dragOptionsCache.contains(DragOption.MOVE_AXIS_X) && (!dragOptionsCache.contains(DragOption.BLOCK_WIDGET));
+		isMouseMoveAxisY = dragOptionsCache.contains(DragOption.MOVE_AXIS_Y) && (!dragOptionsCache.contains(DragOption.BLOCK_WIDGET));;
 		
-		isMouseMoveAxisX = dragOptions.contains(DragOption.MOVE_AXIS_X) && (!dragOptions.contains(DragOption.BLOCK_WIDGET));
-		isMouseMoveAxisY = dragOptions.contains(DragOption.MOVE_AXIS_Y) && (!dragOptions.contains(DragOption.BLOCK_WIDGET));;
-		
-		isMouseMoveRestricted = (isMouseMoveAxisX != isMouseMoveAxisY) || (dragOptions.contains(DragOption.BLOCK_WIDGET));
+		isMouseMoveRestricted = (isMouseMoveAxisX != isMouseMoveAxisY) || (dragOptionsCache.contains(DragOption.BLOCK_WIDGET));
 		
 		if (dragObject.getContainerElement()!= null) {
 			Element container = dragObject.getContainerElement();
@@ -366,18 +295,37 @@ public class DragAndDropController {
 	
 	private void calculateEventRestrictions(DragObject dragObject){
 		
-		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
-		
-		if (dragOptions.contains(DragOption.SILENT)) {
+		if (dragOptionsCache.contains(DragOption.SILENT)) {
 			setAllDragEventsRestricted();
-			dragInitEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_INIT_EVENT);
-			dragStartEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_START_EVENT);
-			dragMoveEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_MOVE_EVENT);
-			dragStopEventEnabled = dragOptions.contains(DragOption.FIRE_DRAG_STOP_EVENT);
-			dropOutEventEnabled = dragOptions.contains(DragOption.FIRE_DROP_OUT_EVENT); 
+			dragInitEventEnabled = dragOptionsCache.contains(DragOption.FIRE_DRAG_INIT_EVENT);
+			dragStartEventEnabled = dragOptionsCache.contains(DragOption.FIRE_DRAG_START_EVENT);
+			dragMoveEventEnabled = dragOptionsCache.contains(DragOption.FIRE_DRAG_MOVE_EVENT);
+			dragStopEventEnabled = dragOptionsCache.contains(DragOption.FIRE_DRAG_STOP_EVENT);
+			dropOutEventEnabled = dragOptionsCache.contains(DragOption.FIRE_DROP_OUT_EVENT); 
 		}
 
 	}
+	
+	private void initializeDragOptionsCache(DragObject dragObject) {
+		dragOptionsCache = dragObject.getDragOptions();	
+	}
+	
+	private void resetDragOptionsCache(){
+		dragOptionsCache.clear();
+	}
+
+	private void setMouseRelativePositionCache(DragObject dragObject){
+		mouseRelativePositionX = dragObject.getMouseRelativePositionX();
+		mouseRelativePositionY = dragObject.getMouseRelativePositionY();
+	}
+	
+    private void resetDragWidgetPositionIfNeeded(DragObject dragObject, int mouseClientPositionX, int mouseClientPositionY) {
+        if (dragOptionsCache.contains(DragOption.CENTER_WIDGET_ON_CURSOR)) {
+            DOMUtil.centerElementOnPosition(dragObject.getDragElement(), mouseClientPositionX, mouseClientPositionY);
+            dragObject.reset(mouseClientPositionX, mouseClientPositionY);
+            GWT.log("DragWidget reset position: " + dragObject.getDragElement().getAbsoluteTop() + " " + dragObject.getDragElement().getAbsoluteLeft());
+        }
+    }
 	
 	private void setAllDragEventsRestricted(){
 		dragInitEventEnabled = false;
@@ -411,15 +359,14 @@ public class DragAndDropController {
 	}
 	
 	private void resetAllDragRelatedDomChanges(DragObject dragObject){
-		ArrayList<DragOption> dragOptions = dragObject.getDragOptions();
 		
 		nativePreviewHR.removeHandler();
 		DOMUtil.cancelAllDocumentSelections();
 		
-		if (dragOptions.contains(DragOption.CLONE_WIDGET) && (!dragOptions.contains(DragOption.BLOCK_WIDGET))) {
+		if (dragOptionsCache.contains(DragOption.CLONE_WIDGET) && (!dragOptionsCache.contains(DragOption.BLOCK_WIDGET))) {
 			DragAndDropUtil.terminateClone(dragObject);
 		}
-		if (dragOptions.contains(DragOption.AUTO_MOVE_CURSOR)) {
+		if (dragOptionsCache.contains(DragOption.AUTO_MOVE_CURSOR)) {
 			dragObject.getDragElement().getStyle().clearCursor();
 		}
 	}

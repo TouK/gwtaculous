@@ -40,7 +40,7 @@ public class DragAndDrop {
 		ArrayList<DragOption> dragOptions = new ArrayList<DragOption>(Arrays.asList(options));
 		DragObject d = new DragObject(draggable, new DraggableWidget(draggable), dragOptions);
 		
-		return DragAndDropController.getInstance().makeMeDraggable(d);
+		return DragAndDropHandlerRegistration.getInstance().makeMeDraggable(d);
 	}
 
     /**
@@ -57,7 +57,7 @@ public class DragAndDrop {
         ArrayList<DragOption> dragOptions = new ArrayList<DragOption>(Arrays.asList(options));
         DragObject d = new DragObject(draggable, new DraggableWidget(draggable), dragOptions);
 
-        return DragAndDropController.getInstance().makeMeDraggable(d, dragHandler);
+        return DragAndDropHandlerRegistration.getInstance().makeMeDraggable(d, dragHandler);
     }
 	
 	/**
@@ -77,7 +77,7 @@ public class DragAndDrop {
 		
 		d.setContainerWidget(containerWidget);
 		
-		return DragAndDropController.getInstance().makeMeDraggable(d);
+		return DragAndDropHandlerRegistration.getInstance().makeMeDraggable(d);
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class DragAndDrop {
 		ArrayList<DragOption> dragOptions = new ArrayList<DragOption>(Arrays.asList(options));
 		DragObject d = new DragObject(draggWidget, new DraggableWidget(leverWidget), dragOptions);
 		
-		return DragAndDropController.getInstance().makeMeDraggable(d);
+		return DragAndDropHandlerRegistration.getInstance().makeMeDraggable(d);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class DragAndDrop {
 		
 		d.setContainerWidget(containerWidget);
 		
-		return DragAndDropController.getInstance().makeMeDraggable(d);
+		return DragAndDropHandlerRegistration.getInstance().makeMeDraggable(d);
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class DragAndDrop {
 		ArrayList<DropOption> dropOptions = new ArrayList<DropOption>(Arrays.asList(options));
 		DropObject d = new DropObject(droppable, droppable, dropOptions);
 		
-		return DragAndDropController.getInstance().makeMeDroppable(d);
+		return DragAndDropHandlerRegistration.getInstance().makeMeDroppable(d);
 	}
 
     /**
@@ -147,7 +147,7 @@ public class DragAndDrop {
         ArrayList<DropOption> dropOptions = new ArrayList<DropOption>(Arrays.asList(options));
         DropObject d = new DropObject(droppable, droppable, dropOptions);
 
-        return DragAndDropController.getInstance().makeMeDroppable(d, dropHandler);
+        return DragAndDropHandlerRegistration.getInstance().makeMeDroppable(d, dropHandler);
     }
 	
 }

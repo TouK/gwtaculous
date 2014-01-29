@@ -14,7 +14,7 @@ public enum DragOption {
     /** Dragged widget position will be centered under mouse cursor on drag start */
     CENTER_WIDGET_ON_CURSOR,
 	
-	/** After successful drag fix position of source element to last known position of its dragged clone */
+	/** After successful drag position of source element will be changed to last known position of its dragged clone */
 	MOVE_TO_CLONE,
 	
 	/** Drag movement is restricted only to X axis, this option is mutually exclusive with MOVE_AXIS_Y */
