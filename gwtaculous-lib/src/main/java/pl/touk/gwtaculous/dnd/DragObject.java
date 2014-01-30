@@ -15,7 +15,9 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class DragObject {
-	
+
+    private boolean initialized = false;
+
 	private int mouseClientPositionX;
 	private int mouseClientPositionY;
 	private int mouseRelativePositionX;
@@ -43,13 +45,8 @@ public class DragObject {
 	}
 	
 	public void init(int mouseClientPositionX, int mouseClientPositionY) {
-		
-		this.mouseClientPositionX = mouseClientPositionX;
-		this.mouseClientPositionY = mouseClientPositionY;
-		this.mouseRelativePositionX = DOMUtil.getMouseRelativePositionX(sourceElement, mouseClientPositionX);
-		this.mouseRelativePositionY = DOMUtil.getMouseRelativePositionY(sourceElement, mouseClientPositionY);
-		this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
-		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
+
+        initPositionData(mouseClientPositionX, mouseClientPositionY, sourceElement);
 		
 		if (dragOptions.contains(DragOption.BLOCK_WIDGET)) {
 			draggedElement = sourceElement;
@@ -58,17 +55,24 @@ public class DragObject {
 		} else {
 			draggedElement = DragAndDropUtil.adaptAndPosition(sourceElement, widgetStartPositionX, widgetStartPositionY, Position.FIXED);
 		}
+
+        initialized = true;
 	}
 	
 	public void reset(int mouseClientPositionX, int mouseClientPositionY){
-		//TODO check if DragObject was initialized !!!
-		this.mouseClientPositionX = mouseClientPositionX;
-		this.mouseClientPositionY = mouseClientPositionY;
-		this.mouseRelativePositionX = DOMUtil.getMouseRelativePositionX(draggedElement, mouseClientPositionX);
-		this.mouseRelativePositionY = DOMUtil.getMouseRelativePositionY(draggedElement, mouseClientPositionY);
-		this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
-		this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
+		if (initialized) {
+            initPositionData(mouseClientPositionX, mouseClientPositionY, draggedElement);
+        }
 	}
+
+    private void initPositionData(int mouseClientPositionX, int mouseClientPositionY, Element mouseRelativeElement){
+        this.mouseClientPositionX = mouseClientPositionX;
+        this.mouseClientPositionY = mouseClientPositionY;
+        this.mouseRelativePositionX = DOMUtil.getMouseRelativePositionX(mouseRelativeElement, mouseClientPositionX);
+        this.mouseRelativePositionY = DOMUtil.getMouseRelativePositionY(mouseRelativeElement, mouseClientPositionY);
+        this.widgetStartPositionX = mouseClientPositionX - mouseRelativePositionX;
+        this.widgetStartPositionY = mouseClientPositionY - mouseRelativePositionY;
+    }
 	
 	public ArrayList<DragOption> getDragOptions() {
 		return new ArrayList<DragOption>(dragOptions);

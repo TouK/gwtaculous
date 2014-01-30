@@ -29,7 +29,7 @@ public class DragAndDropNativePreviewHandler implements NativePreviewHandler {
 		
 		if (event.getTypeInt() == Event.ONMOUSEMOVE){
 			ne.preventDefault();
-			dragObject.setMouseClientPosition(ne.getClientX(), ne.getClientY());
+			dragObject.setMouseClientPosition(clientX, clientY);
 			dragAndDropController.dragMove(dragObject, ne);
 			event.cancel();
 		} else if (event.getTypeInt() == Event.ONMOUSEUP) {
