@@ -4,12 +4,12 @@
 	<artifactId>gwtaculous-lib</artifactId>
 	<packaging>jar</packaging>
 	<name>GWT special effects library</name>
-	<version>0.3.7-SNAPSHOT</version>
+	<version>0.3.7</version>
 	
 	<parent>
 		<groupId>pl.touk.gwtaculous</groupId>
 		<artifactId>gwtaculous</artifactId>
-		<version>0.3.7-SNAPSHOT</version>
+		<version>0.3.7</version>
 	</parent>
 	
 	<properties>
