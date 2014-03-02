@@ -31,7 +31,29 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Effects {
 	
-	public static enum EffectName {Appear,BlindDown,BlindUp,DropOut,Fade,Fold,Grow,Highlight,Morph,Move,Opacity,Puff,Pulsate,Scale,ScrollTo,Shake,Shrink,SlideDown,SlideUp,Squish,SwitchOff};
+	public static enum EffectName {
+		Appear, 
+		BlindDown, 
+		BlindUp, 
+		DropOut, 
+		Fade, 
+		Fold, 
+		Grow, 
+		Highlight, 
+		Morph, 
+		Move, 
+		Opacity, 
+		Puff, 
+		Pulsate, 
+		Scale, 
+		ScrollTo, 
+		Shake, 
+		Shrink,
+		SlideDown,
+		SlideUp,
+		Squish,
+		SwitchOff
+	};
 	
 	private Effects(){}
 	

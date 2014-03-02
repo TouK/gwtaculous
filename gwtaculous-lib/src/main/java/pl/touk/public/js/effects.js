@@ -1,6 +1,6 @@
-// script.aculo.us effects.js v1.8.3, Thu Oct 08 11:23:33 +0200 2009
+// script.aculo.us effects.js v1.9.0, Thu Dec 23 16:54:48 -0500 2010
 
-// Copyright (c) 2005-2009 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// Copyright (c) 2005-2010 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 // Contributors:
 //  Justin Palmer (http://encytemedia.com/)
 //  Mark Pilgrim (http://diveintomark.org/)
@@ -729,23 +729,23 @@ Effect.SlideUp = function(element) {
     },
     afterFinishInternal: function(effect) {
       effect.element.hide().undoClipping().undoPositioned();
-      effect.element.down().undoPositioned().setStyle({bottom: oldInnerBottom});}
+      effect.element.down().undoPositioned().setStyle({bottom: oldInnerBottom});
+    }
    }, arguments[1] || { })
   );
 };
 
 // Bug in opera makes the TD containing this element expand for a instance after finish
-// AfterFinish Bug resolved thx to Scott Drake (http://3dmdesign.com/javascript/effect-squish-callback-fix)
 Effect.Squish = function(element) {
-  return new Effect.Scale(element, window.opera ? 1 : 0, 
-  	Object.extend({ restoreAfterFinish: true,
+  return new Effect.Scale(element, window.opera ? 1 : 0, {
+    restoreAfterFinish: true,
     beforeSetup: function(effect) {
       effect.element.makeClipping();
     },
     afterFinishInternal: function(effect) {
-      effect.element.hide().undoClipping();}
-    }, arguments[1] || { })
-  );
+      effect.element.hide().undoClipping();
+    }
+  });
 };
 
 Effect.Grow = function(element) {
@@ -1105,7 +1105,7 @@ Effect.Methods = {
   }
 };
 
-$w('fade appear grow shrink fold blindUp blindDown slideUp slideLeft slideDown slideRight'+
+$w('fade appear grow shrink fold blindUp blindDown slideUp slideDown '+
   'pulsate shake puff squish switchOff dropOut').each(
   function(effect) {
     Effect.Methods[effect] = function(element, options){
