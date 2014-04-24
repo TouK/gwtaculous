@@ -6,7 +6,6 @@
 	<!-- automaticly adds dependant java scripts to host page -->
     <script src="js/prototype.js" />
     <script src="js/scriptaculous.js?load=effects" />
-	<script src="js/effects.js"  />
 
 	<source path="gwtaculous" />
 </module>        
