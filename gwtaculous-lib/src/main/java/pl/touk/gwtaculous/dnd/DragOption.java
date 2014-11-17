@@ -25,9 +25,12 @@ public enum DragOption {
 	
 	/** 
 	 * There will be no DragObject related events fired except those given as parameters in DragOption.
-	 * DragObject related events: {@link pl.touk.gwtaculous.dnd.event.DragInitEvent ,
-     * {@link pl.touk.gwtaculous.dnd.event.DragStartEvent}, {@link pl.touk.gwtaculous.dnd.event.DragMoveEvent},
-     * {@link pl.touk.gwtaculous.dnd.event.DragStopEvent}, {@link pl.touk.gwtaculous.dnd.event.DropOutEvent}
+	 * DragObject related events:
+     * {@link pl.touk.gwtaculous.dnd.event.DragInitEvent ,
+     * {@link pl.touk.gwtaculous.dnd.event.DragStartEvent},
+     * {@link pl.touk.gwtaculous.dnd.event.DragMoveEvent},
+     * {@link pl.touk.gwtaculous.dnd.event.DragStopEvent},
+     * {@link pl.touk.gwtaculous.dnd.event.DropOutEvent}
 	 * This will also disable drop related events because they base on drag events
 	 */
 	SILENT, 

@@ -87,7 +87,7 @@ public class DragAndDropController {
 		if(instance == null) {
 			instance = new DragAndDropController(eventBus);
 		} else {
-			GWT.log("DragAndDropController allready initialized with default EventBus ! Skipping custom initialization.");
+			GWT.log("DragAndDropController already initialized with default EventBus ! Skipping custom initialization.");
 		}
 	    return instance;
 	}
