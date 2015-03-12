@@ -4,7 +4,7 @@
 	
 <module>
 
-    <inherits name="pl.touk.Gwtaculous"/>
+    <inherits name="pl.touk.GwtaculousCore"/>
     <inherits name="com.google.gwt.user.User"/>
 	
     <entry-point class="pl.touk.gwtaculous.demo.EntryPoint"/>

@@ -15,8 +15,8 @@
 	<properties>
 		<runTarget>http://localhost:8080/gwtaculous-example/</runTarget>
 		<gwt.noserver>true</gwt.noserver>
-		<gwt.version>2.4.0</gwt.version>
-        <gwt.maven.plugin.version>2.4.0</gwt.maven.plugin.version>
+		<gwt.version>2.7.0</gwt.version>
+        <gwt.maven.plugin.version>2.7.0</gwt.maven.plugin.version>
         <gwt.module.name>pl.touk.gwtaculous.demo.GwtaculousDemo</gwt.module.name>
 	</properties>
 	

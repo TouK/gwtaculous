@@ -1,17 +1,17 @@
 package pl.touk.gwtaculous.demo;
 
-import pl.touk.gwtaculous.effects.Effects;
-import pl.touk.gwtaculous.effects.effect.Effect;
-import pl.touk.gwtaculous.effects.effect.EffectAppear;
-import pl.touk.gwtaculous.effects.effect.EffectBlindUp;
-import pl.touk.gwtaculous.effects.effect.EffectFold;
-import pl.touk.gwtaculous.effects.effect.EffectMove;
-import pl.touk.gwtaculous.effects.effect.EffectOpacity;
-import pl.touk.gwtaculous.effects.effect.EffectParallel;
-import pl.touk.gwtaculous.effects.effect.EffectScale;
-import pl.touk.gwtaculous.effects.effect.EffectSlideUp;
-import pl.touk.gwtaculous.effects.handler.AfterFinishHandler;
-import pl.touk.gwtaculous.effects.helpers.EffectOption;
+import pl.touk.gwtaculous.core.effects.Effects;
+import pl.touk.gwtaculous.core.effects.effect.Effect;
+import pl.touk.gwtaculous.core.effects.effect.EffectAppear;
+import pl.touk.gwtaculous.core.effects.effect.EffectBlindUp;
+import pl.touk.gwtaculous.core.effects.effect.EffectFold;
+import pl.touk.gwtaculous.core.effects.effect.EffectMove;
+import pl.touk.gwtaculous.core.effects.effect.EffectOpacity;
+import pl.touk.gwtaculous.core.effects.effect.EffectParallel;
+import pl.touk.gwtaculous.core.effects.effect.EffectScale;
+import pl.touk.gwtaculous.core.effects.effect.EffectSlideUp;
+import pl.touk.gwtaculous.core.effects.handler.AfterFinishHandler;
+import pl.touk.gwtaculous.core.effects.helpers.EffectOption;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.ClickEvent;

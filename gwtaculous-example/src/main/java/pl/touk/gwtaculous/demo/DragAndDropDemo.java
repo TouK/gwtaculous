@@ -1,14 +1,14 @@
 package pl.touk.gwtaculous.demo;
 
-import pl.touk.gwtaculous.dnd.DragAndDrop;
-import pl.touk.gwtaculous.dnd.DragOption;
-import pl.touk.gwtaculous.dnd.DropOption;
-import pl.touk.gwtaculous.dnd.event.DragOutEvent;
-import pl.touk.gwtaculous.dnd.event.DragOutHandler;
-import pl.touk.gwtaculous.dnd.event.DragOverEvent;
-import pl.touk.gwtaculous.dnd.event.DragOverHandler;
-import pl.touk.gwtaculous.dnd.event.DropInEvent;
-import pl.touk.gwtaculous.dnd.event.DropInHandler;
+import pl.touk.gwtaculous.core.dnd.DragAndDrop;
+import pl.touk.gwtaculous.core.dnd.DragOption;
+import pl.touk.gwtaculous.core.dnd.DropOption;
+import pl.touk.gwtaculous.core.dnd.event.DragOutEvent;
+import pl.touk.gwtaculous.core.dnd.event.DragOutHandler;
+import pl.touk.gwtaculous.core.dnd.event.DragOverEvent;
+import pl.touk.gwtaculous.core.dnd.event.DragOverHandler;
+import pl.touk.gwtaculous.core.dnd.event.DropInEvent;
+import pl.touk.gwtaculous.core.dnd.event.DropInHandler;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
