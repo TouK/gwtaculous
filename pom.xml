@@ -11,7 +11,7 @@
 	<artifactId>gwtaculous</artifactId>
     <packaging>pom</packaging>
 	<name>GWTaculous project</name>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.3.8-SNAPSHOT</version>
 
     <modules>
         <module>gwtaculous-lib</module>
