@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <parent>
+        <groupId>pl.touk</groupId>
+        <artifactId>top</artifactId>
+        <version>1.0.7</version>
+    </parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+    <groupId>pl.touk.gwtaculous</groupId>
+	<artifactId>gwtaculous</artifactId>
+    <packaging>pom</packaging>
+	<name>GWTaculous project</name>
+    <version>0.4.1</version>
+
+    <modules>
+        <module>gwtaculous-lib</module>
+        <module>gwtaculous-example</module>
+    </modules>
+	
+	<scm>
+        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.4.1</connection>
+        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.4.1</developerConnection>
+        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/tags/gwtaculous-0.4.1</url>
+    </scm>
+	
+	<build>
+        <pluginManagement>
+            <plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<preparationGoals>clean install</preparationGoals>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
