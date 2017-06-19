@@ -9,7 +9,8 @@ Its visual effect module is based on other open source library - scriptaculous w
 At the first glance GWTaculous is a java wrapper for javascript functions (JSNI) in scriptaculous library. But in fact it is complete solution with full java API (visual effects, effect queues, animation GWT event handlers etc). Let alone documentation and use examples. It also contains some minor bug fixes and will be updated with new visual effects. You don't even have to know javascript to use it. Bring life to your user interface with a single line of code !
 
 Drag ad drop capabilities are based on GWT Event.NativePreviewHandler and can be used with all GWT supported browsers.
-License
+
+## License
 
 As all our top.touk.pl projects its based on ASF License 2.0 :
 ```
