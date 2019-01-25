@@ -40,4 +40,13 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+    <distributionManagement>
+        <repository>
+            <id>touk-repository</id>
+            <name>deployment</name>
+            <url>https://nexus.touk.pl/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
