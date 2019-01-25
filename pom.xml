@@ -18,12 +18,6 @@
         <module>gwtaculous-example</module>
     </modules>
 	
-	<scm>
-        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</connection>
-        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</developerConnection>
-        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</url>
-    </scm>
-	
 	<build>
         <pluginManagement>
             <plugins>
