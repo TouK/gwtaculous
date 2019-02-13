@@ -11,18 +11,12 @@
 	<artifactId>gwtaculous</artifactId>
     <packaging>pom</packaging>
 	<name>GWTaculous project</name>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.4.3-SNAPSHOT</version>
 
     <modules>
         <module>gwtaculous-lib</module>
         <module>gwtaculous-example</module>
     </modules>
-	
-	<scm>
-        <connection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</connection>
-        <developerConnection>scm:svn:https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</developerConnection>
-        <url>https://touk.pl/svn/internal/touk/20procent/Project_Ark/gwtaculous/trunk</url>
-    </scm>
 	
 	<build>
         <pluginManagement>
@@ -46,4 +40,13 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+    <distributionManagement>
+        <repository>
+            <id>touk-repository</id>
+            <name>deployment</name>
+            <url>https://nexus.touk.pl/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
